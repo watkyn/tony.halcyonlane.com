@@ -1,29 +1,19 @@
 const ASCII_ART = `
-        __     __
-       /  \\~~~/  \\
-     /|         |\\
-    | |         | |
-    | |/    _\\  | |
-    | | |   (_) | |
-    | | |       | |
-     \\| |/\\___/\\|/
-       ~~     ~~
-    [SLOW CROSSING]
+_____
+|_   _|__  _ __  _   _
+  | |/ _ \\| '_ \\| | | |
+  | | (_) | | | | |_| |
+  |_|\\___/|_| |_|\\__, |
+                 |___/
+ _____ _      _          _ _ 
+| ____(_) ___| |__   ___| | |__   ___ _ __ __ _  ___ _ __ 
+|  _| | |/ __| '_ \\ / _ \\| '_ \\ / _ \\ '__/ _\` |/ _ \\ '__|
+| |___| | (__| | | |  __/ | |_) |  __/ | | (_| |  __/ | 
+|_____|_|\\___|_| |_|\\___|_|_.__/ \\___|_|  \\__, |\\___|_|
+                                          |___/ 
 `;
 
-const WELCOME_MESSAGE = `Welcome to my terminal! Here are some commands to try:
-
-  help         - Show all available commands
-  about        - Learn about me
-  projects     - View my work
-  blog         - Read my blog posts
-  experience   - See my work history
-  skills       - View my tech stack
-  contact      - Get in touch
-  ls           - Look around
-  clear        - Clear the terminal
-
-Type 'help' to get started.`;
+const WELCOME_MESSAGE = `Type 'help' to get started.`;
 
 const COMMANDS = {
   help: {
@@ -36,7 +26,6 @@ const COMMANDS = {
 <span class="help-command">projects</span><span>View my work</span>
 <span class="help-command">blog</span><span>Read my blog posts</span>
 <span class="help-command">experience</span><span>See my work history</span>
-<span class="help-command">skills</span><span>View my tech stack</span>
 <span class="help-command">contact</span><span>Get in touch</span>
 <span class="help-command">ls</span><span>List directory contents</span>
 <span class="help-command">cd</span><span>Change directory</span>
@@ -50,10 +39,10 @@ const COMMANDS = {
     description: 'Learn about me',
     execute: () => {
       return {
-        output: `Hi! I'm Tony, a software developer.
+        output: `Hi! I'm Tony, a software developer from Fall Creek, WI.
 
-I'm a backend developer with experience building scalable systems.
-I love clean code, elegant solutions, and learning new technologies.
+I'm a Principal Software Engineer at Jamf with 20+ years of experience building software that people enjoy using. 
+I'm an enthusiastic learner who loves clean code, elegant solutions, and creating great user experiences.
 
 This website is my personal terminal - feel free to explore!`,
       };
@@ -98,19 +87,6 @@ Use 'ls' to look around.`,
       };
     },
   },
-  skills: {
-    description: 'View my tech stack',
-    execute: () => {
-      return {
-        output: `Tech Skills
-===========
-
-Coming soon! I'm cataloging my skills.
-
-Use 'ls' to look around.`,
-      };
-    },
-  },
   contact: {
     description: 'Get in touch',
     execute: () => {
@@ -129,7 +105,7 @@ Use 'ls' to look around.`,
     execute: (args) => {
       const currentDir = state.currentDirectory;
       if (currentDir === '~') {
-        return { output: 'about.txt  projects/  blog/  experience.txt  skills.txt  contact.txt' };
+        return { output: 'about.txt  projects/  blog/  experience.txt  contact.txt' };
       }
       return { output: 'No files here.' };
     },
