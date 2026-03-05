@@ -1,0 +1,14 @@
+title: "Tony's Terminal"
+description: "A personal CLI-themed website for my software development career"
+baseurl: ""
+url: "https://tony.halcyonlane.com"
+theme: null
+
+markdown: kramdown
+sass:
+  style: compressed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
