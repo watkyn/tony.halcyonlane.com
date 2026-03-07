@@ -51,8 +51,43 @@ describe('runCommand', () => {
   describe('help command', () => {
     it('returns help output', () => {
       const result = runCommand('help', state);
-      expect(result.output).toContain('help');
-      expect(result.output).toContain('Show all available commands');
+      expect(result.output).toContain('>about<');
+      expect(result.output).toContain('Learn about me');
+    });
+
+    it('contains visible commands', () => {
+      const result = runCommand('help', state);
+      expect(result.output).toContain('>about<');
+      expect(result.output).toContain('>blog<');
+      expect(result.output).toContain('>experience<');
+      expect(result.output).toContain('>contact<');
+    });
+
+    it('excludes hidden commands', () => {
+      const result = runCommand('help', state);
+      expect(result.output).not.toContain('cd');
+      expect(result.output).not.toContain('pwd');
+      expect(result.output).not.toContain('clear');
+      expect(result.output).not.toContain('cat');
+      expect(result.output).not.toContain('>help<');
+    });
+
+    it('contains command descriptions', () => {
+      const result = runCommand('help', state);
+      expect(result.output).toContain('>about<');
+      expect(result.output).toContain('Learn about me');
+      expect(result.output).toContain('>blog<');
+      expect(result.output).toContain('Read my blog posts');
+      expect(result.output).toContain('>experience<');
+      expect(result.output).toContain('See my work history');
+      expect(result.output).toContain('>contact<');
+      expect(result.output).toContain('Get in touch');
+    });
+
+    it('returns html structure', () => {
+      const result = runCommand('help', state);
+      expect(result.output).toContain('<div class="help-list">');
+      expect(result.output).toContain('<span class="help-command">');
     });
   });
 
@@ -197,6 +232,11 @@ describe('getTabCompletions', () => {
 
   it('returns empty for no match', () => {
     const completions = getTabCompletions('xyz');
+    expect(completions).toHaveLength(0);
+  });
+
+  it('returns empty when no input provided', () => {
+    const completions = getTabCompletions('');
     expect(completions).toHaveLength(0);
   });
 });

@@ -24,6 +24,9 @@ export function runCommand(input, state) {
 
 export function getTabCompletions(partial) {
   const lastWord = partial.split(/\s+/).pop();
+  if (!lastWord) {
+    return [];
+  }
   return TAB_COMPLETION.filter(cmd => cmd.startsWith(lastWord));
 }
 
