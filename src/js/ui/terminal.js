@@ -21,7 +21,7 @@ let state = {
   historyIndex: -1,
 };
 
-function typeText(element, text, speed = 20) {
+function typeText(element, text, speed = 0) {
   return new Promise((resolve) => {
     let i = 0;
     element.textContent = '';
@@ -150,13 +150,13 @@ async function initialize() {
   asciiElement.className = 'ascii-art';
   terminalContent.appendChild(asciiElement);
 
-  await typeText(asciiElement, ASCII_ART, 2);
+  await typeText(asciiElement, ASCII_ART);
 
   const welcomeElement = document.createElement('div');
   welcomeElement.className = 'welcome-message';
   terminalContent.appendChild(welcomeElement);
 
-  await typeText(welcomeElement, WELCOME_MESSAGE, 0);
+  await typeText(welcomeElement, WELCOME_MESSAGE);
 
   addInputLine();
   document.getElementById('command-input').focus();

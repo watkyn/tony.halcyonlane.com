@@ -19,17 +19,6 @@ I'm an enthusiastic learner who loves clean code, elegant solutions, and creatin
 This website is my personal terminal - feel free to explore!`,
     }),
   },
-  projects: {
-    description: 'View my work',
-    execute: () => ({
-      output: `My Projects
-==========
-
-Coming soon! I'm working on adding my project portfolio.
-
-Use 'ls' to look around the virtual filesystem.`,
-    }),
-  },
   blog: {
     description: 'Read my blog posts',
     execute: () => ({
@@ -67,7 +56,7 @@ Use 'ls' to look around.`,
     description: 'List directory contents',
     execute: (args, state) => {
       if (state.currentDirectory === '~') {
-        return { output: 'about.txt  projects/  blog/  experience.txt  contact.txt' };
+        return { output: 'about.txt  blog/  experience.txt  contact.txt' };
       }
       return { output: 'No files here.' };
     },
@@ -83,7 +72,7 @@ Use 'ls' to look around.`,
       if (!target || target === '~') {
         return { output: '', state: { currentDirectory: '~' } };
       }
-      if (target === 'projects' || target === 'blog') {
+      if (target === 'blog') {
         return { output: '', state: { currentDirectory: `~/${target}` } };
       }
       return { error: `cd: no such directory: ${target}` };

@@ -64,13 +64,6 @@ describe('runCommand', () => {
     });
   });
 
-  describe('projects command', () => {
-    it('returns projects output', () => {
-      const result = runCommand('projects', state);
-      expect(result.output).toContain('My Projects');
-    });
-  });
-
   describe('blog command', () => {
     it('returns blog output', () => {
       const result = runCommand('blog', state);
@@ -96,13 +89,6 @@ describe('runCommand', () => {
     it('lists root directory', () => {
       const result = runCommand('ls', state);
       expect(result.output).toContain('about.txt');
-      expect(result.output).toContain('projects/');
-    });
-
-    it('lists subdirectory', () => {
-      state.currentDirectory = '~/projects';
-      const result = runCommand('ls', state);
-      expect(result.output).toContain('No files here');
     });
   });
 
@@ -113,28 +99,23 @@ describe('runCommand', () => {
     });
 
     it('returns current directory when changed', () => {
-      state.currentDirectory = '~/projects';
+      state.currentDirectory = '~/blog';
       const result = runCommand('pwd', state);
-      expect(result.output).toBe('~/projects');
+      expect(result.output).toBe('~/blog');
     });
   });
 
   describe('cd command', () => {
     it('changes to root', () => {
-      state.currentDirectory = '~/projects';
+      state.currentDirectory = '~/blog';
       const result = runCommand('cd', state);
       expect(result.state.currentDirectory).toBe('~');
     });
 
     it('changes to root with tilde', () => {
-      state.currentDirectory = '~/projects';
+      state.currentDirectory = '~/blog';
       const result = runCommand('cd ~', state);
       expect(result.state.currentDirectory).toBe('~');
-    });
-
-    it('changes to projects directory', () => {
-      const result = runCommand('cd projects', state);
-      expect(result.state.currentDirectory).toBe('~/projects');
     });
 
     it('changes to blog directory', () => {
@@ -199,7 +180,6 @@ describe('commands object', () => {
   it('has all required commands', () => {
     expect(commands.help).toBeDefined();
     expect(commands.about).toBeDefined();
-    expect(commands.projects).toBeDefined();
     expect(commands.blog).toBeDefined();
     expect(commands.experience).toBeDefined();
     expect(commands.contact).toBeDefined();
