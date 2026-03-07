@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern of the Week - Builder</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Pattern of the Week - Builder</h1>
+    <p class="meta">
+      <time datetime="2009-05-22">May 22, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>The intent of the BUILDER pattern is to move the construction logic for an object outside the class to be instantiated.
+A builder class offloads construction logic from a domain class and can accept initialization parameters gradually, as a parser discovers them.
+(Java Design Patterns)</p>
+
+<p>A common motivation for refactoring to a Builder is to simplify the client code that creates complex objects.
+(Refactoring to Patterns)</p>
+
+<p>One place that I frequently will use the builder pattern in the future is creating objects for my unit tests in Java.  Test Data Builder works really well for this since it allows for having immutable objects without having to specify all the parameters in the constructor of the class.  It also allows for introducing test doubles easily for only specific cases, etc.</p>
+
+<p>For Test Data Builders in Java see Jay Fields article.</p>
+
+<p>For a Ruby test data builder, check out Factory Girl</p>
+
+<p>Immutability simplifies concurrency issues, but complicates construction by forcing all state to be passed into the constructor.  When we were using Google Protocol Buffers, I noticed their diligence in making sure the only mutable objects were Builder objects.  This gives us the flexibility of building up the data in the builder class however it seems to work best, but then once the REAL object is built, it is immutable.</p>
+
+<p>Whenever there is pain putting together a complex object graph, test objects, composite objects, and the like, the Builder pattern is very useful.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

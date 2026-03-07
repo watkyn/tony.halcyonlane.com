@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern of the Week - Flyweight</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Pattern of the Week - Flyweight</h1>
+    <p class="meta">
+      <time datetime="2009-05-22">May 22, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>The intent of the FLYWEIGHT pattern is to use sharing to support large numbers of fine-grained objects efficiently.  (Java Design Patterns)</p>
+
+<p>I have always wondered what exactly the Flyweight pattern was all about so this week I decided I would learn.  Right away in the definition is the use of another term that I usually find confusing, “fine-grained vs coarse-grained” objects.</p>
+
+<p>It turns out fine-grained and coarse-grained are terms used in physics and have also come to be used in other technical fields.  For objects, to be fine-grained generally means to be small with a focused responsibility whereas coarse-grained objects generally encapsulate the functionality of many fine-grained objects.</p>
+
+<p>J2EE uses these terms a lot because of the problems involved in having fine-grained objects being too “chatty” in a distributed system.</p>
+
+<p>Anyway, to get back to Flyweight, lets say there is a fine-grained object like a Unit.  Unit is a measurement that can be anything from inches to liters to moles.  The point being, a Unit is immutable and one instance can be shared safely across the entire system.  An inch is always going to be an inch, so lets share the inch Unit instead of having everyone create there own instance of inch anytime they need it.</p>
+
+<p>One approach (used in the book) is to create a factory like UnitFactory that will return the shared instance of each Unit.  Enforcing the use of UnitFactory was done by hiding all the Unit implementations in an inner class of the Factory so that they can not be instantiated directly.  The Unit interface is exposed to all.  Asking the UnitFactory for a Unit could either be done by passing in a string or an enum representing the Unit to be returned.</p>
+
+<p>So, if you really want to prematurelly optimize your next project, analyze all the objects that could potentially be shared and tell everyone on your team that the Flyweight pattern would be a really good idea.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

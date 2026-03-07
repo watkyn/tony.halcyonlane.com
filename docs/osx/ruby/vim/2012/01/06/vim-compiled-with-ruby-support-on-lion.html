@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vim Compiled With Ruby Support on Lion</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Vim Compiled With Ruby Support on Lion</h1>
+    <p class="meta">
+      <time datetime="2012-01-06">January 06, 2012</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>If you are a vim user on a Mac and you also like the Command-t plugin you have no doubt had to deal with the default vim, which does not come with ruby support out of the box. I have resorted to using MacVim for most of my needs but once in a while I wish Command-t was there for me in a vim terminal (read tmux).</p>
+
+<p>Well, I just found out that MacVim ships with a Vim and MacVim executable, so just use that.</p>
+
+<p>I added this alias to my bash profile and all was good:</p>
+
+<p>alias vim=’/Applications/MacVim.app/Contents/MacOS/Vim’</p>
+
+<p>That will take precedence over /usr/bin/vim (except if you do sudo vim, then you are back to the old /usr/bin/vim).</p>
+
+<p>Good enough, is what I say.</p>
+
+<p>PS. I made a symlink from /Applications/MacVim.app/Contents/MacOS/Vim into /usr/bin/vim and it didn’t work quite right. I got a bunch of warnings about color scheme, etc. Not sure why, but I didn’t feel the need to dig deeper. That is why I went the alias route.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

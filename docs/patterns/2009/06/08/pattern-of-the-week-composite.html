@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern of the Week - Composite</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Pattern of the Week - Composite</h1>
+    <p class="meta">
+      <time datetime="2009-06-08">June 08, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>The intent of the COMPOSITE pattern is to let clients treat individual objects and compositions of objects uniformly. (Java Design Patterns)</p>
+
+<p>There are objects that have children and there are objects that don’t.  The objects that have children can have a common interface with the objects that do not have children, and so Composite.</p>
+
+<p>The example I used in my code (see below) was that of a Menu and MenuItems.  Swing uses this model for its menus.  A Menu may or may not have sub menus.  A MenuItem, however, never has sub menus; it is always the end of the road, a leaf.</p>
+
+<p>A process may want to traverse a tree of objects but it does not want to have to figure out who has child elements and who does.  Composite attempts to solve this problem by establishing a common interface between the two types.  Then the object that has children can traverse its children when the common method is called and call the common method on the child objects.</p>
+
+<p>Here is a link to the ruby code I wrote up to help me understand Composite better.</p>
+
+<p>I ran into another good example over the weekend.  We went to a tree identification outing and the naturalist there had a identification key.  It used decision tree logic, and I thought to myself, “Hey, the Composite pattern in real life!”.  What a geek I am sometimes.</p>
+
+<p>Each question led to either one or many follow up questions.  I thought of putting the logic into an iPhone application, and realized I could model the questions as Composites.  Some questions would be trees, and others would be leaves.  Perfect for a tree identification app!</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern of the Week - Visitor</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Pattern of the Week - Visitor</h1>
+    <p class="meta">
+      <time datetime="2010-01-06">January 06, 2010</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>The intent of VISITOR is to let you define a new operation for a hierarchy without changing the hierarchy classes. (Java Design Patterns)</p>
+
+<p>Josh Kerievsky puts it this way, “The job of many real world Visitors is to accumulate information.”</p>
+
+<p>So what exactly does that mean in practice?  The classes in the hierarchy must have a method called accept() that takes in an specified interface.  Then the interface will have visit() methods on there.  The visit signature will be determined by which class in the hierarchy you want to visit, and thus extend functionality to.</p>
+
+<p>The tricky part for me to understand was the “double-dispatch” that needs to take place for Visitor to function.  An object that conforms to the interface needed by the visitor takes the visitor in the accept() method.  Inside the accept() method the visit method is called by the object which then passes itself to the correct visit() method of the Visitor.</p>
+
+<p>Confusing?  Yes, it seems to be rather.</p>
+
+<p>I like the quote by Ralph Johnson about Visitor, “Most of the time you don’t need Visitor, but when you do need Visitor, you really need Visitor!”</p>
+
+<p>That tells me, to not go out of my way to find uses for Visitor, but to stay far away from it until the light bulb comes on in a particular project where this makes perfect sense.  It may never happen, in which case I won’t lose any sleep.</p>
+
+<p>Visitor does not apply to ruby or any dynamic language where you can change the class hierarchy whenever you wish, on the fly.  Even so, I am going to show this code in ruby, pretending to be Java.  The interesting thing here is that ruby does not have method overloading since it is dynamically types.  So the actual java example would look different, in that the visit methods would be overloaded with the different types that we know of.  The ruby example has to check inside the visit method for the appropriate type and handle it accordingly.  Method overloading is a nice thing to have when you want it.</p>
+
+<p>My TreeVisitor example in ruby.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

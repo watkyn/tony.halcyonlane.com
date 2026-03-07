@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IBOutlets and Interface Builder</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>IBOutlets and Interface Builder</h1>
+    <p class="meta">
+      <time datetime="2009-04-06">April 06, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>It has taken me about 5 sessions of working through the Pragmatic Programmers iPhone screencasts before I am starting to feel comfortable “wiring up” components through Interface Builder.</p>
+
+<p>It really is a “visual” dependency injection framework.  I specify the class that I want access to in my header file and optionally have properties set for it.  Then, when I drag the visual representation of the class to another visual representation of another class, it tells the compiler to inject this class into that class.</p>
+
+<p>Connecting, via the right click drag and drop, is essentially setting up a configuration that will inject that component into your class at runtime.  Before today, I didn’t really notice the list of IBOutlets each component was expecting to have set and the list that each component was referenced by.  For some reason, that was the point at which everything started to click.</p>
+
+<p>Before today, I just saw Bill D. dragging stuff around and “wiring things together”.  Then I would try to start from scratch without following him step by step and get totally lost as soon as I had to figure out which components to hook up to which controllers, etc.</p>
+
+<p>I don’t know why it has helped me to think of it in terms of dependency injection, but if it helps, it helps.  Probably more than anything, it just takes repetition until something clicks.  One or two more episodes and possibly a small project start to finish, and I think it will be cemented in the brain paths for a good long time.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

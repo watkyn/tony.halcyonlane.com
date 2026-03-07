@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Updating Rubygems on an Old 10.5 Leopard Machine</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Updating Rubygems on an Old 10.5 Leopard Machine</h1>
+    <p class="meta">
+      <time datetime="2012-01-06">January 06, 2012</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>I ran into this problem today when trying to update my ruby gems on a fresh OSX 10.5 machine for testing:</p>
+
+<p>Updating RubyGems…
+ERROR:  While executing gem … (Gem::RemoteSourceException)
+    HTTP Response 302 fetching http://gems.rubyforge.org/yaml</p>
+
+<p>After a little googling I saw where gems were stored on S3 so I just added the —source option and that worked.  Here is the command for posterity.</p>
+
+<p>gem update —system —source http://production.s3.rubygems.org/</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

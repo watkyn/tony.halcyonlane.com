@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern of the Week - Adapter</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Pattern of the Week - Adapter</h1>
+    <p class="meta">
+      <time datetime="2009-09-25">September 25, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>From Java Design Patterns:
+The intent of ADAPTER is to provide the interface that a client expects while using the services of a class with a different interface.</p>
+
+<p>This actually makes sense to me right out of the gate.  I’ve probably read about and used Adapter before but needed a refresher on what it actually was.</p>
+
+<p>So lets say that I have a lab processing class that takes LabOrder objects and processes them somehow.  Another team in my company has a service that supplies LabResults from a different vendor than the one I work with but they like the processing class I made and want me to process their LabResult class also.</p>
+
+<p>I see that the objects do similar things but have slightly different methods, so I create an adapter class that implements the LabOrder interface and delegates to the LabResult object that is passed in to the constructor.  No code changes required for the lab processing class.</p>
+
+<p>githup Adapter code</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

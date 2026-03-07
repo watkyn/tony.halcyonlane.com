@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCUnit Configuration for iPhone Development</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>OCUnit Configuration for iPhone Development</h1>
+    <p class="meta">
+      <time datetime="2009-09-14">September 14, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>On an iPhone project I am currently working on, I have been experimenting with some unit testing frameworks.  Actually, I tried the rbiphonetesting ruby framework from Dr. Nic and that got me started down the TDD path on this project.</p>
+
+<p>It was actually pretty sweet, since I couldn’t test any UIKit classes from the ruby framework since it was using MacRuby which does not run on the iPhone sdk.  This was a nice constraint, as I was forced to put any code I wanted to test into a non UI class.  This helped me clean out the UI and delegate to models, presenters, etc.</p>
+
+<p>Then I hit an issue with differences in string handling between MacRuby and the iPhone sdk.  My unit tests were no longer reliable, since they were passing but when running on the iPhone, I could obviously see incorrect behavior.</p>
+
+<p>I knew going in, that this could be a problem.  It was a fun experiment, and actually gave me a good perspective on testing apps on the iPhone.</p>
+
+<p>I have recently ported all my ruby tests over to OCUnit and am back up and running.  If I had started with OCUnit, I think my tests may be quite different, as well as the structure of my object model.</p>
+
+<p>One thing that stuck out for me after porting all the tests over to OCUnit, is that they are incredibly fast compared to the ruby version.  Which is good, since they run every time I build my code in Xcode.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

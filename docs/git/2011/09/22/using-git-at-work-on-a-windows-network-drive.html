@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using Git at Work on a Windows Network Drive</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Using Git at Work on a Windows Network Drive</h1>
+    <p class="meta">
+      <time datetime="2011-09-22">September 22, 2011</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>Rarely do I program without using some sort of version control.  I’ve been using git locally on my Windows machine at work to manage some scripts and I use a network drive as my remote in case my machine dies.  Here are the steps I used to get that up and running.</p>
+
+<p>You will need to install git (try msysgit windows installer) and learn about git (try git immersion) before setting up your remote repository.</p>
+
+<p>Create a folder that will hold your git repository on your network share.
+I have a mapped drive on g: and my repository is g:\scripts so that is what my examples will use.</p>
+
+<p>From a cmd prompt change to your mapped drive.</p>
+<blockquote>
+  <p>cd g:</p>
+</blockquote>
+
+<p>Then cd into your soon to be git repository.</p>
+<blockquote>
+  <p>cd scripts</p>
+</blockquote>
+
+<p>Then create an empty git repository.  If you do not use the —bare option, you will have issues so don’t leave that out.</p>
+<blockquote>
+  <p>git init —bare</p>
+</blockquote>
+
+<p>Now if you don’t have a local git repository yet, then you can clone your new repository wherever you like by navigating back to your local drive.</p>
+<blockquote>
+  <p>c:
+cd work/scripts
+git clone file://g:\scripts 
+(UNC paths also work  file://\server\share\username\scripts)</p>
+</blockquote>
+
+<p>When you clone, you automatically get a remote called “origin” and you can push to the server for safe keeping any time you make changes locally.</p>
+<blockquote>
+  <p>git push origin master</p>
+</blockquote>
+
+<p>If you already have a git repository and you just want to push out to the shared drive then you can do this from within your local git manged project.</p>
+<blockquote>
+  <p>git remote add origin file://g:\scripts
+git push origin master</p>
+</blockquote>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>

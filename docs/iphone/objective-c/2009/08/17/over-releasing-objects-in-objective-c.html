@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Over Releasing Objects in Objective-C</title>
+  <meta name="description" content="A CLI-themed site because that is what I do">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="terminal-content" id="terminal-content">
+      <article class="post">
+  <header>
+    <h1>Over Releasing Objects in Objective-C</h1>
+    <p class="meta">
+      <time datetime="2009-08-17">August 17, 2009</time>
+      by Tony Eichelberger
+    </p>
+  </header>
+
+  <div class="post-content">
+    <p>I just learned the difference between over releasing an object and attempting to release an unallocated object.
+I saw this example in an iPhone book where an instance variable was being released before it was assigned.</p>
+
+<p>1
+2
+3
+4
+5</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+<p>– (void)parserDidStartDocument:(NSXMLParser *)parser {
+  [tweetsString release];
+  tweetsString = [[NSMutableString alloc] initWithCapacity: (20 * (140 + 20)) ];
+  // more code
+}
+`
+```</p>
+
+<p>I was wondering why the release on the first line was not blowing up, since I have experienced errors in my code when I over release an object (that is, I call release on an object more than once).</p>
+
+<p>So I tried an experiment and put multiple [tweetString release]; calls all in a row, thinking this would blow up.
+ But it works just fine.</p>
+
+<p>The reason is that a nil object (one that has never been allocated) is never sent any messages.  There are no NullPointerExceptions since the messages are just discarded. Objective-C is a no-op language on nil, and you can rely on that in your code this way. So it is safe to call release on an unallocated object, but you cannot send release to an object more than once AFTER it has been allocated.</p>
+
+<p>I should have realized this before, since this is the way properties work when set to retain.</p>
+
+  </div>
+</article>
+
+    </div>
+  </div>
+  <script src="/assets/js/bundle.js"></script>
+</body>
+</html>
