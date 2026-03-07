@@ -1,3 +1,21 @@
+import blogPosts from '../../../_posts.json';
+
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${String(date.getDate()).padStart(2, ' ')} ${date.getFullYear()}`;
+};
+
+const stripFrontmatter = (content) => {
+  if (content.startsWith('---')) {
+    const endIdx = content.indexOf('---', 3);
+    if (endIdx !== -1) {
+      return content.slice(endIdx + 3).trim();
+    }
+  }
+  return content;
+};
+
 export const commands = {
   help: {
     description: 'Show all available commands',
@@ -60,12 +78,26 @@ Use 'ls' to look around.`,
       if (state.currentDirectory === '~') {
         return { output: 'about.txt  blog/  experience.txt  contact.txt' };
       }
+      if (state.currentDirectory === '~/blog') {
+        const longFormat = args.includes('-l');
+        const posts = blogPosts.map(p => p.slug);
+        
+        if (longFormat) {
+          const lines = blogPosts.map(p => {
+            const date = formatDate(p.date);
+            return `-rw-r--r--   1 guest  staff   1024 ${date} ${p.slug}`;
+          });
+          return { output: lines.join('\n') };
+        }
+        
+        return { output: posts.join('  ') };
+      }
       return { output: 'No files here.' };
     },
   },
   cat: {
     description: 'Print file contents',
-    execute: (args) => {
+    execute: (args, state) => {
       const target = args[0];
       if (!target) {
         return { error: 'cat: missing file operand' };
@@ -73,6 +105,15 @@ Use 'ls' to look around.`,
       if (target.endsWith('/')) {
         return { error: `cat: ${target}: Is a directory` };
       }
+
+      if (state.currentDirectory === '~/blog') {
+        const post = blogPosts.find(p => p.slug === target);
+        if (post) {
+          return { output: stripFrontmatter(post.content) };
+        }
+        return { error: `cat: ${target}: No such post` };
+      }
+
       const files = {
         'about.txt': commands.about.execute(),
         'experience.txt': commands.experience.execute(),

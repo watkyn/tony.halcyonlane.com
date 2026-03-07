@@ -1,4 +1,623 @@
-(function(){"use strict";function d(t){const e=t.trim();if(!e)return{command:"",args:[]};const n=e.split(/\s+/);return{command:n[0].toLowerCase(),args:n.slice(1)}}function _(){return{currentDirectory:"~",commandHistory:[],historyIndex:-1}}const s={help:{description:"Show all available commands",execute:(t,e)=>{const n=["cat","pwd","cd","clear","help"];return{output:`<div class="help-list">${Object.entries(s).filter(([i])=>!n.includes(i)).map(([i,c])=>`<span class="help-command">${i}</span><span>${c.description}</span>`).join("")}</div>`}}},about:{description:"Learn about me",execute:()=>({output:`Hi! I'm Tony, a software developer from Fall Creek, WI.
+(function(){"use strict";function p(e){const n=e.trim();if(!n)return{command:"",args:[]};const t=n.split(/\s+/);return{command:t[0].toLowerCase(),args:t.slice(1)}}function g(){return{currentDirectory:"~",commandHistory:[],historyIndex:-1}}const l=[{slug:"the-developer-mind-and-qa",title:"The Developer Mind and QA",date:"2013-02-22",content:`---
+layout: post
+title: "The Developer Mind and QA"
+date: 2013-02-22 21:54:16
+author: Tony Eichelberger
+---
+
+Why is it that a software developer can hardly walk past a puzzle without stopping to try to solve it? Not only that, but they will be slightly angry if you interfere and offer them a suggestion as to the solution.
+
+Compare this type of problem solving genius to what happens when a new bug report comes in for the software they work on. Inform that same developer that there is a defect somewhere in the ordering system, and they will require detailed step by step instructions on how to reproduce it. And after one minute of trying to reproduce it, they will quickly say that it “works on my machine” and call it good.
+
+People hate to waste time on unsolvable problems. Developers don’t always trust people to give them a problem that is solvable. Think of how soul crushing it would be to give that developer a tavern puzzle that did not have a solution. It would be such a cruel trick (please don’t do this, no matter how sorely you are tempted).
+
+On the other hand, when a developer knows the problem has a solution, they will accept the challenge and put all their focus and brain power into the problem until they get it. It’s like a switch that is flipped once we know we’re not on a wild goose chase.
+
+Hmmm, not sure if there is a solution to anything in here…`},{slug:"svn-eclipse-mountain-lion-and-homebrew",title:"SVN Eclipse Mountain Lion and Homebrew",date:"2013-02-14",content:`---
+layout: post
+title: "SVN Eclipse Mountain Lion and Homebrew"
+date: 2013-02-14 08:28:37
+author: Tony Eichelberger
+categories: ['eclipse', 'osx', 'svn']
+---
+
+I was frustrated trying to figure out how to get subversion installed on my OSX machine so that it would be compatible with Eclipse. I wanted to go with the JavaHL svn adapter but I had already installed svn using homebrew.
+I tried to reinstall svn with homebrew like this but got an error:
+
+\`\`\`
+$ brew install --universal --java subversion
+   Error: subversion dependency neon not installed with:
+     --universal
+
+\`\`\`There are several dependencies that need to be uninstalled before installing subversion again with –univeral and –java options 
+For me it was this:
+
+\`\`\`
+
+$ brew rm neon
+$ brew rm sqlite
+$ brew rm serf
+
+\`\`\`
+
+Then this worked:
+\`\`\`
+$ brew install --universal --java subversion
+\`\`\``},{slug:"vim-compiled-with-ruby-support-on-lion",title:"Vim Compiled With Ruby Support on Lion",date:"2012-01-06",content:`---
+layout: post
+title: "Vim Compiled With Ruby Support on Lion"
+date: 2012-01-06 15:03:30
+author: Tony Eichelberger
+categories: ['osx', 'ruby', 'vim']
+---
+
+If you are a vim user on a Mac and you also like the Command-t plugin you have no doubt had to deal with the default vim, which does not come with ruby support out of the box. I have resorted to using MacVim for most of my needs but once in a while I wish Command-t was there for me in a vim terminal (read tmux).
+ 
+Well, I just found out that MacVim ships with a Vim and MacVim executable, so just use that.
+ 
+I added this alias to my bash profile and all was good:
+
+alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+
+That will take precedence over /usr/bin/vim (except if you do sudo vim, then you are back to the old /usr/bin/vim).
+ 
+Good enough, is what I say.
+ 
+
+PS. I made a symlink from /Applications/MacVim.app/Contents/MacOS/Vim into /usr/bin/vim and it didn't work quite right. I got a bunch of warnings about color scheme, etc. Not sure why, but I didn’t feel the need to dig deeper. That is why I went the alias route.`},{slug:"updating-rubygems-on-an-old-10-5-leopard-machine",title:"Updating Rubygems on an Old 10.5 Leopard Machine",date:"2012-01-06",content:`---
+layout: post
+title: "Updating Rubygems on an Old 10.5 Leopard Machine"
+date: 2012-01-06 15:04:18
+author: Tony Eichelberger
+categories: ['osx', 'ruby']
+---
+
+I ran into this problem today when trying to update my ruby gems on a fresh OSX 10.5 machine for testing:
+
+Updating RubyGems…
+ERROR:  While executing gem … (Gem::RemoteSourceException)
+    HTTP Response 302 fetching http://gems.rubyforge.org/yaml
+
+After a little googling I saw where gems were stored on S3 so I just added the —source option and that worked.  Here is the command for posterity.
+
+gem update —system —source http://production.s3.rubygems.org/`},{slug:"using-git-at-work-on-a-windows-network-drive",title:"Using Git at Work on a Windows Network Drive",date:"2011-09-22",content:`---
+layout: post
+title: "Using Git at Work on a Windows Network Drive"
+date: 2011-09-22 15:41:10
+author: Tony Eichelberger
+categories: ['git']
+---
+
+Rarely do I program without using some sort of version control.  I’ve been using git locally on my Windows machine at work to manage some scripts and I use a network drive as my remote in case my machine dies.  Here are the steps I used to get that up and running.
+
+You will need to install git (try msysgit windows installer) and learn about git (try git immersion) before setting up your remote repository.
+
+Create a folder that will hold your git repository on your network share.
+I have a mapped drive on g: and my repository is g:\\scripts so that is what my examples will use.
+
+From a cmd prompt change to your mapped drive.
+> cd g:
+
+Then cd into your soon to be git repository.
+> cd scripts
+
+Then create an empty git repository.  If you do not use the —bare option, you will have issues so don’t leave that out.
+> git init —bare
+
+Now if you don’t have a local git repository yet, then you can clone your new repository wherever you like by navigating back to your local drive.
+> c:
+> cd work/scripts
+> git clone file://g:\\scripts 
+(UNC paths also work  file://\\server\\share\\username\\scripts)
+
+When you clone, you automatically get a remote called “origin” and you can push to the server for safe keeping any time you make changes locally.
+> git push origin master
+
+If you already have a git repository and you just want to push out to the shared drive then you can do this from within your local git manged project.
+> git remote add origin file://g:\\scripts
+> git push origin master`},{slug:"mind-share-part-two",title:"Mind Share (Part Two)",date:"2011-03-11",content:`---
+layout: post
+title: "Mind Share (Part Two)"
+date: 2011-03-11 14:38:17
+author: Tony Eichelberger
+categories: ['life']
+---
+
+Exactly one year ago today I posted about “mind share” and how I was going to “punch out” of the tech world and enter fully into my home life with my full attention.  Well, it has gone pretty well.  There is definitely a correlation between programming too much and mind share issues.  The biggest lesson I’ve learned is to recognize when I’ve been pushing too hard, and deliberately let go of the things I don’t have time for.
+
+Here are a few thoughts about what has worked for me and what has not in my ever elusive quest for work life balance.
+
+Things that worked:
+
+- Early mornings:
+I have been reading and working on projects by getting up really early in the morning.  Working early in the morning has several benefits for me.  1) It is a natural time box that I can’t easily lengthen since I need to get ready for work eventually.  2) My mind is fresh and doesn’t feel tired like it can later in the evening.  3) I’m not taking away from time with anybody else (they are all still sleeping).
+
+- Family projects:
+My wife and I worked on a project together.  It is a website that helps her keep track of things she buys in bulk to better understand which of those things are making her money and which are not worth the investment. This was fun because it was something we could work on in the evening but it wasn’t taking time away from us being together.  It also was different than when I worked on a project by myself because now we were both thinking about the same thing, so if I had an idea for Homestore Lane (http://homestorelane.com) it was something we could talk about, unlike if it was some project she was not interested in.
+
+Things that didn’t work so well:
+
+-  One night per week to work on projects:
+There are several reasons I don’t think this worked very well for me.  1)  I was already mentally tired by the time I started on my projects.  2) It was hard to unwind and go to sleep after programming late into the night.  3) It was hard to get back into things after waiting for the whole week (or sometimes longer since it was easy to skip a week).
+
+- Trying harder to compartmentalize:
+It wasn’t mind over matter for me.  I had to stop trying to do so much before I noticed the difference in my attention span and my engagement in my home life.  Even though I would tell myself to stop thinking about projects, my brain just could not unwind enough because it was too tired (or engaged, or ?).
+
+I’m going to stick with the morning thing and maybe some more family projects and see how it goes.  If there is anything else along these lines I am sure I will blog about them next year.  Or the year after, maybe.  (I am already staying up too late to write this, so what am I doing?  Time to stop.)`},{slug:"objective-c-scarcity-continues",title:"Objective-C Scarcity Continues",date:"2010-04-12",content:`---
+layout: post
+title: "Objective-C Scarcity Continues"
+date: 2010-04-12 16:54:23
+author: Tony Eichelberger
+categories: ['apple', 'iphone', 'objective-c']
+---
+
+There is a lot of angst among developers of the iPhone/iPad community over the language restrictions of the new iOS 4.0 license, and rightfully so.  Mobile Orchard closed shop because of it and there may be more high profile developers leaving the Apple platform in the future.
+
+There is one positive for the Objective-C developers, though.  The scarcity of their skill set will most likely continue.  Objective-C developers have experienced a renaissance in their once obscure language and frameworks, but now they are the chosen ones and they get paid like it.  Scarcity will give them the advantage in the market, driving up their rates/salaries as long as Apple continues to dominate in the arena of sales.
+
+This may be the only positive that comes from Apple’s decision, and it is only a positive for a minority of developers, so in the end … blech.`},{slug:"ipad-could-be-for-an-older-generation",title:"iPad Could Be for an Older Generation",date:"2010-04-12",content:`---
+layout: post
+title: "iPad Could Be for an Older Generation"
+date: 2010-04-12 16:55:14
+author: Tony Eichelberger
+categories: ['apple', 'ipad']
+---
+
+Somehow, the complaints I am seeing about the iPad don’t resonate with me.  No sd slot, no USB slot, too restrictive, too much DRM.  What I mean is this: I think the iPad will be a huge success, just not among the peope we think it will.
+
+There are a lot of people in the world who are not very tech savvy and who don’t even know what a micro SD card is and wouldn’t even know if they are buying DRM free music, video, etc. The baby boom generation, and the non-technical masses are going to love a device that “just works” for so many things.  At the same time, it makes these same people look and feel like the geeks they know and admire (ha ha).
+
+For example, I could see my Dad getting and iPad and a $15 monthly data plan so that he can do basic web browsing and email from home (he does not have internet right now).  It would be the simplest solution for him, and he doesn’t have to use a mouse.  Some people just hate mice.
+
+Apple does such a great job of giving non-technical people fewer choices and a great experience.  The same may hold true for the iPad.  When the tech community criticizes Apple for the above mentioned things, they may be missing the point.  Apple doesn’t care so much about developers, and alpha geeks as they might like to think.
+
+Watch out for the iPad revolution coming to a senior center near you!`},{slug:"mind-share",title:"Mind Share",date:"2010-04-08",content:`---
+layout: post
+title: "Mind Share"
+date: 2010-04-08 20:26:47
+author: Tony Eichelberger
+categories: ['life']
+---
+
+After reading the pragmatic life post called Punch Out  Log Off,   I began thinking about a term I call “mind share”.  Think of mind share in terms of twitter, but instead of asking “what are you doing right now”, you ask, “what are you thinking about right now?” If you ask yourself this question periodically, you will begin to see some patterns.
+
+For example, let’s say you are spending some quality time with the family.  What are you thinking about?  Do any of the answers to the mind share question sound like the list below?  If so, the people around you are not getting quality time from you and believe me, they can tell:
+
+– “What is the killer feature for idea X that I should build?”
+– “I wish my company used REST web services instead of SOAP?”
+– “I should tweet that I am hanging out with the fam right now.”
+– “Someone is talking to me, and I am looking at them, but I have no idea what they just said.”
+– “What a cool idea for an iPhone App. I better write it down.”
+– “I think I just heard my iPhone buzz.  Was it email, SMS, ebay, Fring, or one of the 700 other possibilities?”
+
+It takes a conscious effort to make sure the people in the room with you are given more priority than the virtual world we work and play in throughout the day.  I have been analyzing this in my own life for the past couple years (mostly the negative effects) and have started to understand some of the ways that I can give more mind share to the people I love and compartmentalize my work better.
+
+In part two of this post, I might try to explain some of the things I have been learning that help keep my mind from getting too absorbed in tech. Actually, I may never write part two, if I am successful at punching out and checking in to life at home better.`},{slug:"legacy-code-extract-interface",title:"Legacy Code - Extract Interface",date:"2010-01-11",content:`---
+layout: post
+title: "Legacy Code - Extract Interface"
+date: 2010-01-11 08:53:29
+author: Tony Eichelberger
+categories: ['refactoring']
+---
+
+Micheal Feathers book “Working with legacy code ” has a chapter called Extract Interface.  This is taken from Fowler’s Refactoring book and applied to legacy code.
+
+The motivation for extracting an interface is different between the two books.  Refactoring looks at this from the point of code organization and structure.  Working With Legacy Code looks at this as a dependency breaking mechanism to get a class under test.
+
+Both aims are to make the code more maintainable over time, and the use of interfaces to represent concepts in code is a great way to do that.
+
+How would this play into something like ruby?  Well, the dependency issue is virtually non-existent from a testing point of view.  Getting a class under test is as easy as using a mocking library (Actually, the same can be said for Java in the example from Micheal’s book).`},{slug:"pattern-of-the-week-visitor",title:"Pattern of the Week - Visitor",date:"2010-01-06",content:`---
+layout: post
+title: "Pattern of the Week - Visitor"
+date: 2010-01-06 17:05:07
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+The intent of VISITOR is to let you define a new operation for a hierarchy without changing the hierarchy classes. (Java Design Patterns)
+
+Josh Kerievsky puts it this way, “The job of many real world Visitors is to accumulate information.”
+
+So what exactly does that mean in practice?  The classes in the hierarchy must have a method called accept() that takes in an specified interface.  Then the interface will have visit() methods on there.  The visit signature will be determined by which class in the hierarchy you want to visit, and thus extend functionality to.
+
+The tricky part for me to understand was the “double-dispatch” that needs to take place for Visitor to function.  An object that conforms to the interface needed by the visitor takes the visitor in the accept() method.  Inside the accept() method the visit method is called by the object which then passes itself to the correct visit() method of the Visitor.
+
+Confusing?  Yes, it seems to be rather.
+
+I like the quote by Ralph Johnson about Visitor, “Most of the time you don’t need Visitor, but when you do need Visitor, you really need Visitor!”
+
+That tells me, to not go out of my way to find uses for Visitor, but to stay far away from it until the light bulb comes on in a particular project where this makes perfect sense.  It may never happen, in which case I won’t lose any sleep.
+
+Visitor does not apply to ruby or any dynamic language where you can change the class hierarchy whenever you wish, on the fly.  Even so, I am going to show this code in ruby, pretending to be Java.  The interesting thing here is that ruby does not have method overloading since it is dynamically types.  So the actual java example would look different, in that the visit methods would be overloaded with the different types that we know of.  The ruby example has to check inside the visit method for the appropriate type and handle it accordingly.  Method overloading is a nice thing to have when you want it.
+
+My TreeVisitor example in ruby.`},{slug:"pomodoro-and-flow",title:"Pomodoro and Flow",date:"2009-12-03",content:`---
+layout: post
+title: "Pomodoro and Flow"
+date: 2009-12-03 13:11:41
+author: Tony Eichelberger
+categories: ['programming']
+---
+
+I have been hearing about the pomodoro technique and so I started trying it for myself.  I really like the concept, and often times, I need some help staying focused and not getting distracted.  However, when I am tuned in to my code and really focused on what I am doing, I can go for hours at a very high level.  This happened to me lately as I was working on an iPhone project.  I knew what I wanted to get done, and trying to use pomodoro was just getting in the way.
+
+When you are in “flow” from a programmer’s perspective, then go with the flow and skip the pomodoro.  I don’t want any breaks, especially breaks in my concentration at that point.`},{slug:"learn-4-to-6-editors-adequately",title:"Learn 4 to 6 Editors Adequately",date:"2009-12-03",content:`---
+layout: post
+title: "Learn 4 to 6 Editors Adequately"
+date: 2009-12-03 16:16:19
+author: Tony Eichelberger
+categories: ['programming']
+---
+
+Unfortunately, I suffer from what a coworker of mine calls, editor ADD.  My new motto is this: “Learn 4 to 6 editors and learn them adequately.”  I have kind of given up on learning one editor very well, since I can’t make up my mind.  About a year ago, I narrowed down my list to 4 development tools / editors (Textmate, vim, eclipse, IntelliJ).  I also tried to separate them by operating system.  When I was on the Mac I was going to use IntelliJ for Java work and Textmate for everything else.  On windows it was going to be Eclipse for Java and VIM for everything else.  So far it hasn’t been too bad.
+
+I was worried that having too many keystrokes in my head would end up becoming a nightmare, but surprisingly, the many different sets of keystrokes can coexist in my mind without too much conflict.  There is roughly a ½ hour context switch for me, where keystrokes are sometimes blurred moving from one environment to the other after a prolonged period of using just one.  But for the most part, my brain knows vim, Textmate, eclipse, or IntelliJ, and doesn’t seem to complain about the switching.
+
+I am not actually advocating this approach to anyone else, but there may be one aspect of learning several editors adequately that has some tangible benefit.  That is, when pair programming with different people, you can adapt to the style of your pair with minimal disruption.  Now, if each person has their own laptop and their own set of tools, then it doesn’t really matter.
+
+[Update:  I forgot about Xcode.  That makes 5.]
+
+Update 2013: Now I am leaning toward jetbrains products with the vim plugin and vim for everything else. (Well, textmate is still handy for stuff as well)`},{slug:"waterfall-presentations",title:"Waterfall Presentations",date:"2009-09-25",content:`---
+layout: post
+title: "Waterfall Presentations"
+date: 2009-09-25 16:33:56
+author: Tony Eichelberger
+categories: ['agile']
+---
+
+I just finished watching a presentation on how to incorporate Lean into IT.  After watching the presentation, I realized that most presentations are waterfall.  The really engaging presentations do not usually follow the format we all learned in school:
+
+History of Lean
+How Manufacturing uses Lean
+How IT does things now
+Problems we have in delivering things in IT
+How lean ideas map to IT
+Practical advice on how to apply lean concepts to IT
+Questions?
+
+The most interesting and engaging parts of a presentation are probably the last two items, the practical advice, and the questions from the audience.  But after being put to sleep for the first 45 minutes, people are not ready to get into the questions.
+
+Even if the presentation is interesting, does all the outline verboseness really give people what they want to know?  What would be the Lean way of giving a presentation?
+
+You can’t just stand up there and ask “So, what do you all want to learn about Lean in IT?”, can you?`},{slug:"pattern-of-the-week-adapter",title:"Pattern of the Week - Adapter",date:"2009-09-25",content:`---
+layout: post
+title: "Pattern of the Week - Adapter"
+date: 2009-09-25 16:33:09
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+From Java Design Patterns:
+The intent of ADAPTER is to provide the interface that a client expects while using the services of a class with a different interface.
+
+This actually makes sense to me right out of the gate.  I’ve probably read about and used Adapter before but needed a refresher on what it actually was.
+
+So lets say that I have a lab processing class that takes LabOrder objects and processes them somehow.  Another team in my company has a service that supplies LabResults from a different vendor than the one I work with but they like the processing class I made and want me to process their LabResult class also.
+
+I see that the objects do similar things but have slightly different methods, so I create an adapter class that implements the LabOrder interface and delegates to the LabResult object that is passed in to the constructor.  No code changes required for the lab processing class.
+
+githup Adapter code`},{slug:"ocunit-configuration-for-iphone-development",title:"OCUnit Configuration for iPhone Development",date:"2009-09-14",content:`---
+layout: post
+title: "OCUnit Configuration for iPhone Development"
+date: 2009-09-14 08:04:55
+author: Tony Eichelberger
+categories: ['iphone', 'objective-c']
+---
+
+On an iPhone project I am currently working on, I have been experimenting with some unit testing frameworks.  Actually, I tried the rbiphonetesting ruby framework from Dr. Nic and that got me started down the TDD path on this project.
+
+It was actually pretty sweet, since I couldn’t test any UIKit classes from the ruby framework since it was using MacRuby which does not run on the iPhone sdk.  This was a nice constraint, as I was forced to put any code I wanted to test into a non UI class.  This helped me clean out the UI and delegate to models, presenters, etc.
+
+Then I hit an issue with differences in string handling between MacRuby and the iPhone sdk.  My unit tests were no longer reliable, since they were passing but when running on the iPhone, I could obviously see incorrect behavior.
+
+I knew going in, that this could be a problem.  It was a fun experiment, and actually gave me a good perspective on testing apps on the iPhone. 
+
+I have recently ported all my ruby tests over to OCUnit and am back up and running.  If I had started with OCUnit, I think my tests may be quite different, as well as the structure of my object model.
+
+One thing that stuck out for me after porting all the tests over to OCUnit, is that they are incredibly fast compared to the ruby version.  Which is good, since they run every time I build my code in Xcode.`},{slug:"over-releasing-objects-in-objective-c",title:"Over Releasing Objects in Objective-C",date:"2009-08-17",content:`---
+layout: post
+title: "Over Releasing Objects in Objective-C"
+date: 2009-08-17 08:11:41
+author: Tony Eichelberger
+categories: ['iphone', 'objective-c']
+---
+
+I just learned the difference between over releasing an object and attempting to release an unallocated object.
+I saw this example in an iPhone book where an instance variable was being released before it was assigned.
+
+1
+2
+3
+4
+5
+
+\`\`\`
+\`\`\`
+– (void)parserDidStartDocument:(NSXMLParser *)parser {
+  [tweetsString release];
+  tweetsString = [[NSMutableString alloc] initWithCapacity: (20 * (140 + 20)) ];
+  // more code
+}
+\`
+\`\`\`
+
+I was wondering why the release on the first line was not blowing up, since I have experienced errors in my code when I over release an object (that is, I call release on an object more than once).
+
+So I tried an experiment and put multiple [tweetString release]; calls all in a row, thinking this would blow up.
+ But it works just fine.
+
+The reason is that a nil object (one that has never been allocated) is never sent any messages.  There are no NullPointerExceptions since the messages are just discarded. Objective-C is a no-op language on nil, and you can rely on that in your code this way. So it is safe to call release on an unallocated object, but you cannot send release to an object more than once AFTER it has been allocated.
+
+I should have realized this before, since this is the way properties work when set to retain.`},{slug:"pattern-of-the-week-composite",title:"Pattern of the Week - Composite",date:"2009-06-08",content:`---
+layout: post
+title: "Pattern of the Week - Composite"
+date: 2009-06-08 08:12:54
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+The intent of the COMPOSITE pattern is to let clients treat individual objects and compositions of objects uniformly. (Java Design Patterns)
+
+There are objects that have children and there are objects that don’t.  The objects that have children can have a common interface with the objects that do not have children, and so Composite.
+
+The example I used in my code (see below) was that of a Menu and MenuItems.  Swing uses this model for its menus.  A Menu may or may not have sub menus.  A MenuItem, however, never has sub menus; it is always the end of the road, a leaf.
+
+A process may want to traverse a tree of objects but it does not want to have to figure out who has child elements and who does.  Composite attempts to solve this problem by establishing a common interface between the two types.  Then the object that has children can traverse its children when the common method is called and call the common method on the child objects.
+
+Here is a link to the ruby code I wrote up to help me understand Composite better.
+
+I ran into another good example over the weekend.  We went to a tree identification outing and the naturalist there had a identification key.  It used decision tree logic, and I thought to myself, “Hey, the Composite pattern in real life!”.  What a geek I am sometimes.
+
+Each question led to either one or many follow up questions.  I thought of putting the logic into an iPhone application, and realized I could model the questions as Composites.  Some questions would be trees, and others would be leaves.  Perfect for a tree identification app!`},{slug:"pattern-of-the-week-builder",title:"Pattern of the Week - Builder",date:"2009-05-22",content:`---
+layout: post
+title: "Pattern of the Week - Builder"
+date: 2009-05-22 16:17:24
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+The intent of the BUILDER pattern is to move the construction logic for an object outside the class to be instantiated.
+A builder class offloads construction logic from a domain class and can accept initialization parameters gradually, as a parser discovers them.
+(Java Design Patterns)
+
+A common motivation for refactoring to a Builder is to simplify the client code that creates complex objects.
+(Refactoring to Patterns)
+
+One place that I frequently will use the builder pattern in the future is creating objects for my unit tests in Java.  Test Data Builder works really well for this since it allows for having immutable objects without having to specify all the parameters in the constructor of the class.  It also allows for introducing test doubles easily for only specific cases, etc.
+
+For Test Data Builders in Java see Jay Fields article.
+
+For a Ruby test data builder, check out Factory Girl
+
+Immutability simplifies concurrency issues, but complicates construction by forcing all state to be passed into the constructor.  When we were using Google Protocol Buffers, I noticed their diligence in making sure the only mutable objects were Builder objects.  This gives us the flexibility of building up the data in the builder class however it seems to work best, but then once the REAL object is built, it is immutable.
+
+Whenever there is pain putting together a complex object graph, test objects, composite objects, and the like, the Builder pattern is very useful.`},{slug:"pattern-of-the-week-flyweight",title:"Pattern of the Week - Flyweight",date:"2009-05-22",content:`---
+layout: post
+title: "Pattern of the Week - Flyweight"
+date: 2009-05-22 16:17:12
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+The intent of the FLYWEIGHT pattern is to use sharing to support large numbers of fine-grained objects efficiently.  (Java Design Patterns)
+
+I have always wondered what exactly the Flyweight pattern was all about so this week I decided I would learn.  Right away in the definition is the use of another term that I usually find confusing, “fine-grained vs coarse-grained” objects.
+
+It turns out fine-grained and coarse-grained are terms used in physics and have also come to be used in other technical fields.  For objects, to be fine-grained generally means to be small with a focused responsibility whereas coarse-grained objects generally encapsulate the functionality of many fine-grained objects.
+
+J2EE uses these terms a lot because of the problems involved in having fine-grained objects being too “chatty” in a distributed system.
+
+Anyway, to get back to Flyweight, lets say there is a fine-grained object like a Unit.  Unit is a measurement that can be anything from inches to liters to moles.  The point being, a Unit is immutable and one instance can be shared safely across the entire system.  An inch is always going to be an inch, so lets share the inch Unit instead of having everyone create there own instance of inch anytime they need it.
+
+One approach (used in the book) is to create a factory like UnitFactory that will return the shared instance of each Unit.  Enforcing the use of UnitFactory was done by hiding all the Unit implementations in an inner class of the Factory so that they can not be instantiated directly.  The Unit interface is exposed to all.  Asking the UnitFactory for a Unit could either be done by passing in a string or an enum representing the Unit to be returned.
+
+So, if you really want to prematurelly optimize your next project, analyze all the objects that could potentially be shared and tell everyone on your team that the Flyweight pattern would be a really good idea.`},{slug:"refactoring-thing-of-the-week",title:"Refactoring Thing of the Week",date:"2009-04-23",content:`---
+layout: post
+title: "Refactoring Thing of the Week"
+date: 2009-04-23 16:32:11
+author: Tony Eichelberger
+categories: ['refactoring']
+---
+
+Well, I don’t have much to say about the Refactoring: Change Bidirectional Association to Unidirectional (which is what I decided to look at this week on Monday).  Sounds great!  Change it if it makes sense.
+
+Like Fowler says in the book, “The most difficult part of this refactoring is checking that I can do it.”
+
+If the change will not cause too many ripple effects, it can be done very nicely.  Otherwise, you may be facing a big ball of mud and it may not be feasible.`},{slug:"iboutlets-and-interface-builder",title:"IBOutlets and Interface Builder",date:"2009-04-06",content:`---
+layout: post
+title: "IBOutlets and Interface Builder"
+date: 2009-04-06 09:56:00
+author: Tony Eichelberger
+categories: ['iphone']
+---
+
+It has taken me about 5 sessions of working through the Pragmatic Programmers iPhone screencasts before I am starting to feel comfortable “wiring up” components through Interface Builder.
+
+It really is a “visual” dependency injection framework.  I specify the class that I want access to in my header file and optionally have properties set for it.  Then, when I drag the visual representation of the class to another visual representation of another class, it tells the compiler to inject this class into that class.  
+
+Connecting, via the right click drag and drop, is essentially setting up a configuration that will inject that component into your class at runtime.  Before today, I didn’t really notice the list of IBOutlets each component was expecting to have set and the list that each component was referenced by.  For some reason, that was the point at which everything started to click.
+
+Before today, I just saw Bill D. dragging stuff around and “wiring things together”.  Then I would try to start from scratch without following him step by step and get totally lost as soon as I had to figure out which components to hook up to which controllers, etc.
+
+I don’t know why it has helped me to think of it in terms of dependency injection, but if it helps, it helps.  Probably more than anything, it just takes repetition until something clicks.  One or two more episodes and possibly a small project start to finish, and I think it will be cemented in the brain paths for a good long time.`},{slug:"pattern-of-the-week-decorator",title:"Pattern of the Week - Decorator",date:"2009-04-03",content:`---
+layout: post
+title: "Pattern of the Week - Decorator"
+date: 2009-04-03 14:13:07
+author: Tony Eichelberger
+categories: ['patterns']
+---
+
+The intent of DECORATOR is to let you compose new variations of an operation at runtime. (Java Design Patterns)
+
+The example given in the book identifies java streams as using the Decorator pattern.  Right away my reaction is, I have always hated dealing with streams in Java, they are always so confusing.
+
+I like Russ Olsen’s comment in Design Patterns in Ruby:
+“The classic Decorator pattern is loved more by the folks who build the thing than by those who use it.”
+
+I would agree.
+
+But understanding Decorator will help me recognize when someone has chosen to use Decorator in an API, and maybe it won’t be confusing anymore.
+
+When to use Decorator is not something I am going to try and explain.  I am only interested in trying to explain what Decorator is, so as to help solidify it in my brain forever.  I am going to give a short explanation and then a link to the code I have been experimenting with.
+
+Once the class to be decorated (my example uses a Person class) has been determined, a suitable interface must be agreed upon, that all decorators must implement.  The Decorator must take the Person class as a constructor parameter and delegate to that instance for all methods that it does not explicitly want to manage.  In Most cases, the methods in the Decorator will always delegate to the person instance passed in but some methods will add additional logic.
+
+This pattern allows chaining of Decorators and can be very flexible.  Check out my ruby example code where in I experiment with Decorator following the Java idiom with its limitations and then using ruby modules.  Notice how the two types of Decorators keep chaining together.
+
+Git Hub Decorator.rb
+
+Template Method and Strategy are competing patterns with Decorator.`},{slug:"should-i-trust-the-legion-of-the-bouncy-castle",title:'Should I Trust the "Legion of the Bouncy Castle"',date:"2009-04-02",content:`---
+layout: post
+title: 'Should I Trust the "Legion of the Bouncy Castle"'
+date: 2009-04-02 14:47:34
+author: Tony Eichelberger
+categories: ['java']
+---
+
+I love the idea of Java Web Start and have even given it another try recently (The New Webstart), but as an occasional user of Web Start applications, I can see why it will never take off.  Java does not take off the engineering hats long enough to see how bad it really is.
+
+Case Study:
+
+SoapUI is a testing tool for web services that I have been using on a project.  I needed to run only the GUI portion of SoapUI from my mac so I decided to just web start it and go from there.
+
+The web start button on the web site looks fabulous, great job.  I click on it and it asks me if I want to open the .jnlp file with Java Web Start.  Sure, let’s do that.  
+
+First the ugly Java splash screen comes up.  (-1)
+
+After downloading all the SoapUI jars a popup asks me if I trust eviware?  Sure, I click yes.  Then I am asked if I trust sun micorsystems.  Ok, i guess so, lets get on with this.  
+
+But the kicker was the last one which asked me:
+
+“Do you trust ‘The Legion of the Bouncy Castle’?”
+
+HUH???
+
+So, I googled the legion and found out what it was, and it sounds legit.  It is an open source encryption library of some kind.  And great, if they want to call themselves that, but please do not ask the users of your software if they trust the Legion of the Bouncy Castle!
+
+Do not ask me if I trust this application more than once, and never, never, never, never, never, never, never ask a USER if they trust the Legion of the Bouncy Castle!
+
+(-1000)
+
+I close the app after I am done and realize I have no way of opening SoapUI again unless I navigate back to the web site and relaunch it.
+
+Web Start should make it hard for developers to leave the user hanging as to how to launch the app a second time.
+
+(-5)
+
+So I give that cumulative score of -1051`},{slug:"using-sqlite3-in-a-visual-studio-2008-c-application",title:"Using Sqlite3 in a Visual Studio 2008 C++ Application",date:"2008-07-09",content:`---
+layout: post
+title: "Using Sqlite3 in a Visual Studio 2008 C++ Application"
+date: 2008-07-09 10:14:36
+author: Tony Eichelberger
+categories: ['c++']
+---
+
+I had a terrible time finding out how to get sqlite working with VC++ using the windows binaries from the sqlite download page. Most of the trouble was from me being a complete newb to VC++ but in the end I got it working. Here are the steps to follow along for next time.
+
+- Download the precompiled binaries for Windows and also download the source code.
+
+- The DLL download should contain the following files: sqlite3.dll and sqlite3.def
+
+- The source code should contain lots of c code and header files, you need to find the sqlite3.h header file.
+
+- Put sqlite3.dll, sqlite3.def, and sqlite3.h files into a directory somewhere.
+
+- Next you need to create a sqlite3.lib file in order to implicitly link the dll to your project
+
+- From the command line, navigate to the folder that has the sqlite3 files from step 4, then type the following:
+
+- LIB /DEF:sqlite3.def
+
+- This should create two more files: sqlite3.lib and sqlite3.exp
+
+- NOTE: LIB.exe needs to be on your path and can be found it in the Visual Studio install directory (do a search).
+
+- Now start a new console application project in Visual Studio
+
+- Copy the sqlite3.dll, sqlite3.lib, and sqlite3.h files into your new project directory
+
+- Right click on the Resource Files folder and choose Add >> Existing Item … then choose sqlite3.lib
+
+- You may get a dialog that asks you about the custom rule, I just chose no.
+
+- Now add the sqlite3.h file into your project headers directory in Visual Studio (project >> Add >> Existing item)
+
+- Now you should be able to start using sqlite3: Here is a sample console app you can try.
+
+- This will create a new db and a sample table and spit out a resultset to the console.
+
+Junk
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+
+\`\`\`
+\`\`\`
+#include "stdafx.h"
+#include "sqlite3.h"
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+int i;
+for(i=0; iargc; i++){
+printf("%s = %s\\n", azColName[i], argv[i] ? argv[i] : "NULL");
+}
+printf("\\n");
+return 0;
+}
+
+int _tmain(int argc, _TCHAR* argv[]) {
+sqlite3 *db;
+char *zErrMsg = 0;
+int rc;
+
+rc = sqlite3_open("test.db", &db);
+if( rc ) {
+fprintf(stderr, "Can't open database: %s\\n", sqlite3_errmsg(db));
+sqlite3_close(db);
+return 1;
+}
+rc = sqlite3_exec(db, "create table stuff ( name )", callback, 0, &zErrMsg);
+rc = sqlite3_exec(db, "insert into stuff values ('hello')", callback, 0, &zErrMsg);
+rc = sqlite3_exec(db, "select * from stuff", callback, 0, &zErrMsg);
+if(rc != SQLITE_OK) {
+fprintf(stderr, "SQL error: %s\\n", zErrMsg);
+sqlite3_free(zErrMsg);
+}
+sqlite3_close(db);
+return 0;
+}
+\`
+\`\`\``}],y=e=>{const n=new Date(e);return`${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][n.getMonth()]} ${String(n.getDate()).padStart(2," ")} ${n.getFullYear()}`},f=e=>{if(e.startsWith("---")){const n=e.indexOf("---",3);if(n!==-1)return e.slice(n+3).trim()}return e},r={help:{description:"Show all available commands",execute:(e,n)=>{const t=["cat","pwd","cd","clear","help"];return{output:`<div class="help-list">${Object.entries(r).filter(([a])=>!t.includes(a)).map(([a,s])=>`<span class="help-command">${a}</span><span>${s.description}</span>`).join("")}</div>`}}},about:{description:"Learn about me",execute:()=>({output:`Hi! I'm Tony, a software developer from Fall Creek, WI.
 
 I'm a Principal Software Engineer at Jamf with 20+ years of experience building software that people enjoy using. 
 I'm an enthusiastic learner who loves clean code, elegant solutions, and creating great user experiences.
@@ -18,7 +637,8 @@ Use 'ls' to look around.`})},contact:{description:"Get in touch",execute:()=>({o
 
 Coming soon! Links to my social profiles will be here.
 
-Use 'ls' to look around.`})},ls:{description:"List directory contents",execute:(t,e)=>e.currentDirectory==="~"?{output:"about.txt  blog/  experience.txt  contact.txt"}:{output:"No files here."}},cat:{description:"Print file contents",execute:t=>{const e=t[0];if(!e)return{error:"cat: missing file operand"};if(e.endsWith("/"))return{error:`cat: ${e}: Is a directory`};const n={"about.txt":s.about.execute(),"experience.txt":s.experience.execute(),"contact.txt":s.contact.execute()};return e in n?n[e]:{error:`cat: ${e}: No such file`}}},pwd:{description:"Print working directory",execute:(t,e)=>({output:e.currentDirectory})},cd:{description:"Change directory",execute:(t,e)=>{const n=t[0];return!n||n==="~"?{output:"",state:{currentDirectory:"~"}}:n==="blog"?{output:"",state:{currentDirectory:`~/${n}`}}:{error:`cd: no such directory: ${n}`}}},clear:{description:"Clear the terminal",execute:()=>({clear:!0})}},p=Object.keys(s);function f(t,e){const{command:n,args:r}=d(t);if(!n)return{output:""};if(s[n]){const i=s[n].execute(r,e);return i.state?{...i,state:{...e,...i.state}}:i}return{error:`Command not found: ${n}. Type 'help' for available commands.`}}function y(t){const e=t.split(/\s+/).pop();return e?p.filter(n=>n.startsWith(e)):[]}const g=`
+Use 'ls' to look around.`})},ls:{description:"List directory contents",execute:(e,n)=>{if(n.currentDirectory==="~")return{output:"about.txt  blog/  experience.txt  contact.txt"};if(n.currentDirectory==="~/blog"){const t=e.includes("-l"),o=l.map(a=>a.slug);return t?{output:l.map(s=>`-rw-r--r--   1 guest  staff   1024 ${y(s.date)} ${s.slug}`).join(`
+`)}:{output:o.join("  ")}}return{output:"No files here."}}},cat:{description:"Print file contents",execute:(e,n)=>{const t=e[0];if(!t)return{error:"cat: missing file operand"};if(t.endsWith("/"))return{error:`cat: ${t}: Is a directory`};if(n.currentDirectory==="~/blog"){const a=l.find(s=>s.slug===t);return a?{output:f(a.content)}:{error:`cat: ${t}: No such post`}}const o={"about.txt":r.about.execute(),"experience.txt":r.experience.execute(),"contact.txt":r.contact.execute()};return t in o?o[t]:{error:`cat: ${t}: No such file`}}},pwd:{description:"Print working directory",execute:(e,n)=>({output:n.currentDirectory})},cd:{description:"Change directory",execute:(e,n)=>{const t=e[0];return!t||t==="~"?{output:"",state:{currentDirectory:"~"}}:t==="blog"?{output:"",state:{currentDirectory:`~/${t}`}}:{error:`cd: no such directory: ${t}`}}},clear:{description:"Clear the terminal",execute:()=>({clear:!0})}},w=Object.keys(r);function b(e,n){const{command:t,args:o}=p(e);if(!t)return{output:""};if(r[t]){const a=r[t].execute(o,n);return a.state?{...a,state:{...n,...a.state}}:a}return{error:`Command not found: ${t}. Type 'help' for available commands.`}}function v(e){const n=e.split(/\s+/).pop();return n?w.filter(t=>t.startsWith(n)):[]}const I=`
  _____
 |_   _|__  _ __  _   _
   | |/ _ \\| '_ \\| | | |
@@ -31,10 +651,10 @@ Use 'ls' to look around.`})},ls:{description:"List directory contents",execute:(
 | |___| | (__| | | |  __/ | |_) |  __/ | | (_| |  __/ | 
 |_____|_|\\___|_| |_|\\___|_|_.__/ \\___|_|  \\__, |\\___|_|
                                           |___/ 
-`,h="Type 'help' to get started.";let o={currentDirectory:"~",commandHistory:[],historyIndex:-1};function u(t,e,n=0){return new Promise(r=>{let i=0;t.textContent="";function c(){i<e.length?(t.textContent+=e.charAt(i),i++,setTimeout(c,n)):r()}c()})}function a(t){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="output",n.innerHTML=t,e.appendChild(n)}function x(t){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="output-command",n.textContent=`guest@tony: ${t}`,e.appendChild(n)}function C(){const t=document.getElementById("terminal-content");t.innerHTML=""}function E(){const t=document.getElementById("terminal");t.scrollTop=t.scrollHeight}function l(){return`guest@tony:${o.currentDirectory}$`}function I(t){const e=t.trim();if(!e)return;x(e),o.commandHistory.push(e),o.historyIndex=o.commandHistory.length;const{runCommand:n}=globalThis.terminalEngine,r=n(t,o);r.clear?C():r.output?a(r.output):r.error&&a(`<span class="error">${r.error}</span>`),r.state&&(o={...o,...r.state}),E(),b()}function v(t){if(t.key==="Enter"){const e=t.target,n=e.value,r=e.closest(".command-line");I(n),r.remove(),m()}else if(t.key==="ArrowUp")t.preventDefault(),o.historyIndex>0&&(o.historyIndex--,t.target.value=o.commandHistory[o.historyIndex]);else if(t.key==="ArrowDown")t.preventDefault(),o.historyIndex<o.commandHistory.length-1?(o.historyIndex++,t.target.value=o.commandHistory[o.historyIndex]):(o.historyIndex=o.commandHistory.length,t.target.value="");else if(t.key==="Tab"){t.preventDefault();const e=t.target,n=e.value,r=n.split(/\s+/).pop(),{getTabCompletions:i}=globalThis.terminalEngine,c=i(r);if(c.length===1){const T=n.slice(0,n.length-r.length)+c[0];e.value=T}else c.length>1&&a(n+`
-`+c.join("  "))}}function b(){document.querySelectorAll(".prompt").forEach(e=>e.textContent=l())}async function w(){const t=document.getElementById("terminal-content"),e=document.createElement("div");e.className="ascii-art",t.appendChild(e),await u(e,g);const n=document.createElement("div");n.className="welcome-message",t.appendChild(n),await u(n,h),m(),document.getElementById("command-input").focus()}function m(){const t=document.getElementById("terminal-content"),e=document.createElement("div");e.className="command-line",e.innerHTML=`
-    <span class="prompt">${l()}</span>
+`,k="Type 'help' to get started.";let i={currentDirectory:"~",commandHistory:[],historyIndex:-1};function c(e,n,t=0){return new Promise(o=>{let a=0;e.textContent="";function s(){a<n.length?(e.textContent+=n.charAt(a),a++,setTimeout(s,t)):o()}s()})}function h(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output",t.innerHTML=e,n.appendChild(t)}function T(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output-command",t.textContent=`guest@tony: ${e}`,n.appendChild(t)}function _(){const e=document.getElementById("terminal-content");e.innerHTML=""}function j(){const e=document.getElementById("terminal");e.scrollTop=e.scrollHeight}function d(){return`guest@tony:${i.currentDirectory}$`}function x(e){const n=e.trim();if(!n)return;T(n),i.commandHistory.push(n),i.historyIndex=i.commandHistory.length;const{runCommand:t}=globalThis.terminalEngine,o=t(e,i);o.clear?_():o.output?h(o.output):o.error&&h(`<span class="error">${o.error}</span>`),o.state&&(i={...i,...o.state}),j(),C()}function E(e){if(e.key==="Enter"){const n=e.target,t=n.value,o=n.closest(".command-line");x(t),o.remove(),u()}else if(e.key==="ArrowUp")e.preventDefault(),i.historyIndex>0&&(i.historyIndex--,e.target.value=i.commandHistory[i.historyIndex]);else if(e.key==="ArrowDown")e.preventDefault(),i.historyIndex<i.commandHistory.length-1?(i.historyIndex++,e.target.value=i.commandHistory[i.historyIndex]):(i.historyIndex=i.commandHistory.length,e.target.value="");else if(e.key==="Tab"){e.preventDefault();const n=e.target,t=n.value,o=t.split(/\s+/).pop(),{getTabCompletions:a}=globalThis.terminalEngine,s=a(o);if(s.length===1){const m=t.slice(0,t.length-o.length)+s[0];n.value=m}else s.length>1&&h(t+`
+`+s.join("  "))}}function C(){document.querySelectorAll(".prompt").forEach(n=>n.textContent=d())}async function S(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="ascii-art",e.appendChild(n),await c(n,I);const t=document.createElement("div");t.className="welcome-message",e.appendChild(t),await c(t,k),u(),document.getElementById("command-input").focus()}function u(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="command-line",n.innerHTML=`
+    <span class="prompt">${d()}</span>
     <div class="input-area">
       <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
     </div>
-  `,t.appendChild(e);const n=document.getElementById("command-input");n.addEventListener("keydown",v),n.focus()}document.addEventListener("click",()=>{var t;(t=document.getElementById("command-input"))==null||t.focus()}),document.addEventListener("DOMContentLoaded",w),globalThis.terminalEngine={runCommand:f,createState:_,getTabCompletions:y}})();
+  `,e.appendChild(n);const t=document.getElementById("command-input");t.addEventListener("keydown",E),t.focus()}document.addEventListener("click",()=>{var e;(e=document.getElementById("command-input"))==null||e.focus()}),document.addEventListener("DOMContentLoaded",S),globalThis.terminalEngine={runCommand:b,createState:g,getTabCompletions:v}})();

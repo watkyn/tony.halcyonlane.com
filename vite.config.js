@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   build: {
     rollupOptions: {
-      input: 'src/js/index.js',
+      input: '_src/js/index.js',
       output: {
         dir: 'assets/js',
         entryFileNames: 'bundle.js',
@@ -18,7 +18,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['src/js/engine/**/*.js'],
+      include: ['_src/js/engine/**/*.js'],
       lines: 100,
       functions: 100,
       branches: 100,

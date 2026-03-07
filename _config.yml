@@ -12,8 +12,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
-  - src
-  - test
   - mise.toml
   - AGENTS.md
   - README.md

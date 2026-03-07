@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { runCommand, createState, getTabCompletions, commands } from '../src/js/engine/index.js';
-import { parseInput } from '../src/js/engine/parser.js';
+import { runCommand, createState, getTabCompletions, commands } from '../_src/js/engine/index.js';
+import { parseInput } from '../_src/js/engine/parser.js';
 
 describe('parser', () => {
   it('parses empty input', () => {
@@ -125,6 +125,21 @@ describe('runCommand', () => {
       const result = runCommand('ls', state);
       expect(result.output).toContain('about.txt');
     });
+
+    it('lists blog directory', () => {
+      state.currentDirectory = '~/blog';
+      const result = runCommand('ls', state);
+      expect(result.output).toContain('the-developer-mind-and-qa');
+      expect(result.output).toContain('svn-eclipse-mountain-lion-and-homebrew');
+    });
+
+    it('lists blog directory with -l flag', () => {
+      state.currentDirectory = '~/blog';
+      const result = runCommand('ls -l', state);
+      expect(result.output).toContain('Feb');
+      expect(result.output).toContain('2013');
+      expect(result.output).toContain('the-developer-mind-and-qa');
+    });
   });
 
   describe('pwd command', () => {
@@ -201,6 +216,19 @@ describe('runCommand', () => {
     it('returns error for missing operand', () => {
       const result = runCommand('cat', state);
       expect(result.error).toContain('missing file operand');
+    });
+
+    it('reads blog post by slug', () => {
+      state.currentDirectory = '~/blog';
+      const result = runCommand('cat the-developer-mind-and-qa', state);
+      expect(result.output).toContain('Why is it that a software developer');
+      expect(result.output).not.toContain('layout: post');
+    });
+
+    it('returns error for missing blog post', () => {
+      state.currentDirectory = '~/blog';
+      const result = runCommand('cat nonexistent-post', state);
+      expect(result.error).toContain('No such post');
     });
   });
 

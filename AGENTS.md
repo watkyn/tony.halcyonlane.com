@@ -5,7 +5,7 @@
 This is a jekyll static site with the following additional javascript stuff.
 
 ```
-src/js/            # Source code
+_src/js/            # Source code
 ├── engine/        # Pure CLI logic (100% test coverage required)
 │   ├── index.js   # runCommand(cmd, args, state) → {output|error|clear}
 │   ├── commands.js # Command handlers
@@ -18,7 +18,7 @@ src/js/            # Source code
 assets/js/         # Built output (do not edit)
 └── bundle.js
 
-test/
+_test/
 └── engine.test.js # Vitest tests
 ```
 
