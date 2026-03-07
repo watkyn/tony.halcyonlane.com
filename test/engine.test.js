@@ -136,11 +136,36 @@ describe('runCommand', () => {
     });
   });
 
-  describe('unknown command', () => {
-    it('returns error for unknown command', () => {
-      const result = runCommand('unknowncmd', state);
-      expect(result.error).toContain('Command not found');
-      expect(result.error).toContain('help');
+  describe('cat command', () => {
+    it('reads about.txt', () => {
+      const result = runCommand('cat about.txt', state);
+      expect(result.output).toContain("I'm Tony");
+      expect(result.output).toContain('Principal Software Engineer');
+    });
+
+    it('reads experience.txt', () => {
+      const result = runCommand('cat experience.txt', state);
+      expect(result.output).toContain('Work Experience');
+    });
+
+    it('reads contact.txt', () => {
+      const result = runCommand('cat contact.txt', state);
+      expect(result.output).toContain('Contact Info');
+    });
+
+    it('returns error for directory', () => {
+      const result = runCommand('cat blog/', state);
+      expect(result.error).toContain('Is a directory');
+    });
+
+    it('returns error for missing file', () => {
+      const result = runCommand('cat missing.txt', state);
+      expect(result.error).toContain('No such file');
+    });
+
+    it('returns error for missing operand', () => {
+      const result = runCommand('cat', state);
+      expect(result.error).toContain('missing file operand');
     });
   });
 

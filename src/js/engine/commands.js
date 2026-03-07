@@ -45,7 +45,7 @@ Use 'ls' to look around.`,
     description: 'Get in touch',
     execute: () => ({
       output: `Contact Info
-============
+=============
 
 Coming soon! Links to my social profiles will be here.
 
@@ -59,6 +59,27 @@ Use 'ls' to look around.`,
         return { output: 'about.txt  blog/  experience.txt  contact.txt' };
       }
       return { output: 'No files here.' };
+    },
+  },
+  cat: {
+    description: 'Print file contents',
+    execute: (args) => {
+      const target = args[0];
+      if (!target) {
+        return { error: 'cat: missing file operand' };
+      }
+      if (target.endsWith('/')) {
+        return { error: `cat: ${target}: Is a directory` };
+      }
+      const files = {
+        'about.txt': commands.about.execute(),
+        'experience.txt': commands.experience.execute(),
+        'contact.txt': commands.contact.execute(),
+      };
+      if (!(target in files)) {
+        return { error: `cat: ${target}: No such file` };
+      }
+      return files[target];
     },
   },
   pwd: {

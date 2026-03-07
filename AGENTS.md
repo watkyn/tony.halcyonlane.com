@@ -54,6 +54,8 @@ npm test
 
 ## Build
 
+When making changes always run the npm build afterwards.
+
 ```
 npm run build   # minify JS
 jekyll build   # build site
