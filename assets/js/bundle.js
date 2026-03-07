@@ -618,28 +618,60 @@ sqlite3_close(db);
 return 0;
 }
 \`
-\`\`\``}],y=e=>{const n=new Date(e);return`${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][n.getMonth()]} ${String(n.getDate()).padStart(2," ")} ${n.getFullYear()}`},f=e=>{if(e.startsWith("---")){const n=e.indexOf("---",3);if(n!==-1)return e.slice(n+3).trim()}return e},r={help:{description:"Show all available commands",execute:(e,n)=>{const t=["cat","pwd","cd","clear","help"];return{output:`<div class="help-list">${Object.entries(r).filter(([a])=>!t.includes(a)).map(([a,s])=>`<span class="help-command">${a}</span><span>${s.description}</span>`).join("")}</div>`}}},about:{description:"Learn about me",execute:()=>({output:`Hi! I'm Tony, a software developer from Fall Creek, WI.
+\`\`\``}],y=e=>{const n=new Date(e);return`${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][n.getMonth()]} ${String(n.getDate()).padStart(2," ")} ${n.getFullYear()}`},f=e=>{if(e.startsWith("---")){const n=e.indexOf("---",3);if(n!==-1)return e.slice(n+3).trim()}return e},s={help:{description:"Show all available commands",execute:(e,n)=>{const t=["cat","pwd","cd","clear","help"];return{output:`<div class="help-list">${Object.entries(s).filter(([a])=>!t.includes(a)).map(([a,r])=>`<span class="help-command">${a}</span><span>${r.description}</span>`).join("")}</div>`}}},about:{description:"Learn about me",execute:()=>({output:`Hi! I'm Tony, a software developer from Fall Creek, WI.
 
-I'm a Principal Software Engineer at Jamf with 20+ years of experience building software that people enjoy using. 
+Right now I'm a Principal Software Engineer at Jamf and work in the macOS management space.
+With 20+ years of experience building software, I've seen a bit over the years.
 I'm an enthusiastic learner who loves clean code, elegant solutions, and creating great user experiences.
 
-This website is my personal terminal - feel free to explore!`})},blog:{description:"Read my blog posts",execute:()=>({output:`Blog Posts
+I also love TUI's and hope you like this one!
+`})},blog:{description:"Read some very outdated blog posts",execute:()=>({output:`Blog Posts
 ==========
 
-No posts yet. Check back soon!
-
-Use 'ls' to look around.`})},experience:{description:"See my work history",execute:()=>({output:`Work Experience
+cd into blog and then use 'ls -l' to look around.`})},experience:{description:"See my work history",execute:()=>({output:`Work Experience
 ===============
 
-Coming soon! My resume is being prepared.
+Jamf (10 yrs 10 mos)
+Principal Software Engineer
+Mar 2022 - Present
+Staff Software Engineer
+Aug 2020 - Present
+Senior Software Engineer
+Jun 2015 - Present
+- Lead developer for Jamf Pro's management framework on macOS
 
-Use 'ls' to look around.`})},contact:{description:"Get in touch",execute:()=>({output:`Contact Info
+Freelance Software Developer (1 yr 8 mos)
+Nov 2013 - Jun 2015
+- Worked for Jamf
+- Worked for Homespotter, and iOS real estate agent app
+
+Jamf (2 yrs 5 mos)
+Software Architect
+Oct 2012 - Oct 2013
+Software Developer
+Jun 2011 - Oct 2012
+- Lead developer for Jamf Pro's management framework on macOS
+
+IDEXX Laboratories (6 yrs 2 mos)
+Senior Application Developer
+May 2005 - Jun 2011
+- Developer for IDEXX-PACS digital imaging software
+- iPhone / iPad research and development
+- Lead developer on R&D effort of next generation veterinary practice management software
+
+Countertops Inc (3 yrs 3 mos)
+Programmer
+Mar 2002 - May 2005
+- Technical lead for Java development (Tomcat, Eclipse, JUnit, Spring, Struts, Tapestry)
+`})},contact:{description:"Get in touch",execute:()=>({output:`Contact Info
 =============
 
-Coming soon! Links to my social profiles will be here.
+<a href="https://www.linkedin.com/in/tonyike/">LinkedIn</a>
+<a href="https://github.com/watkyn">Github</a>
+<a href="https://x.com/watkyn">X</a>
 
-Use 'ls' to look around.`})},ls:{description:"List directory contents",execute:(e,n)=>{if(n.currentDirectory==="~")return{output:"about.txt  blog/  experience.txt  contact.txt"};if(n.currentDirectory==="~/blog"){const t=e.includes("-l"),o=l.map(a=>a.slug);return t?{output:l.map(s=>`-rw-r--r--   1 guest  staff   1024 ${y(s.date)} ${s.slug}`).join(`
-`)}:{output:o.join("  ")}}return{output:"No files here."}}},cat:{description:"Print file contents",execute:(e,n)=>{const t=e[0];if(!t)return{error:"cat: missing file operand"};if(t.endsWith("/"))return{error:`cat: ${t}: Is a directory`};if(n.currentDirectory==="~/blog"){const a=l.find(s=>s.slug===t);return a?{output:f(a.content)}:{error:`cat: ${t}: No such post`}}const o={"about.txt":r.about.execute(),"experience.txt":r.experience.execute(),"contact.txt":r.contact.execute()};return t in o?o[t]:{error:`cat: ${t}: No such file`}}},pwd:{description:"Print working directory",execute:(e,n)=>({output:n.currentDirectory})},cd:{description:"Change directory",execute:(e,n)=>{const t=e[0];return!t||t==="~"?{output:"",state:{currentDirectory:"~"}}:t==="blog"?{output:"",state:{currentDirectory:`~/${t}`}}:{error:`cd: no such directory: ${t}`}}},clear:{description:"Clear the terminal",execute:()=>({clear:!0})}},w=Object.keys(r);function b(e,n){const{command:t,args:o}=p(e);if(!t)return{output:""};if(r[t]){const a=r[t].execute(o,n);return a.state?{...a,state:{...n,...a.state}}:a}return{error:`Command not found: ${t}. Type 'help' for available commands.`}}function v(e){const n=e.split(/\s+/).pop();return n?w.filter(t=>t.startsWith(n)):[]}const I=`
+`})},ls:{description:"List directory contents",execute:(e,n)=>{if(n.currentDirectory==="~")return{output:"about.txt  blog/  experience.txt  contact.txt"};if(n.currentDirectory==="~/blog"){const t=e.includes("-l"),o=l.map(a=>a.slug);return t?{output:l.map(r=>`-r--r--r--   guest  staff   ${y(r.date)} ${r.title}`).join(`
+`)}:{output:o.join("  ")}}return{output:"No files here."}}},cat:{description:"Print file contents",execute:(e,n)=>{const t=e[0];if(!t)return{error:"cat: missing file operand"};if(t.endsWith("/"))return{error:`cat: ${t}: Is a directory`};if(n.currentDirectory==="~/blog"){const a=l.find(r=>r.slug===t);return a?{output:f(a.content)}:{error:`cat: ${t}: No such post`}}const o={"about.txt":s.about.execute(),"experience.txt":s.experience.execute(),"contact.txt":s.contact.execute()};return t in o?o[t]:{error:`cat: ${t}: No such file`}}},pwd:{description:"Print working directory",execute:(e,n)=>({output:n.currentDirectory})},cd:{description:"Change directory",execute:(e,n)=>{const t=e[0];return!t||t==="~"?{output:"",state:{currentDirectory:"~"}}:t==="blog"?{output:"",state:{currentDirectory:`~/${t}`}}:{error:`cd: no such directory: ${t}`}}},clear:{description:"Clear the terminal",execute:()=>({clear:!0})}},w=Object.keys(s);function b(e,n){const{command:t,args:o}=p(e);if(!t)return{output:""};if(s[t]){const a=s[t].execute(o,n);return a.state?{...a,state:{...n,...a.state}}:a}return{error:`Command not found: ${t}. Type 'help' for available commands.`}}function v(e){const n=e.split(/\s+/).pop();return n?w.filter(t=>t.startsWith(n)):[]}const I=`
  _____
 |_   _|__  _ __  _   _
   | |/ _ \\| '_ \\| | | |
@@ -652,10 +684,10 @@ Use 'ls' to look around.`})},ls:{description:"List directory contents",execute:(
 | |___| | (__| | | |  __/ | |_) |  __/ | | (_| |  __/ | 
 |_____|_|\\___|_| |_|\\___|_|_.__/ \\___|_|  \\__, |\\___|_|
                                           |___/ 
-`,k="Type 'help' to get started.";let i={currentDirectory:"~",commandHistory:[],historyIndex:-1};function c(e,n,t=0){return new Promise(o=>{let a=0;e.textContent="";function s(){a<n.length?(e.textContent+=n.charAt(a),a++,setTimeout(s,t)):o()}s()})}function h(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output",t.innerHTML=e,n.appendChild(t)}function T(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output-command",t.textContent=`guest@tony: ${e}`,n.appendChild(t)}function _(){const e=document.getElementById("terminal-content");e.innerHTML=""}function j(){const e=document.getElementById("terminal");e.scrollTop=e.scrollHeight}function d(){return`guest@tony:${i.currentDirectory}$`}function x(e){const n=e.trim();if(!n)return;T(n),i.commandHistory.push(n),i.historyIndex=i.commandHistory.length;const{runCommand:t}=globalThis.terminalEngine,o=t(e,i);o.clear?_():o.output?h(o.output):o.error&&h(`<span class="error">${o.error}</span>`),o.state&&(i={...i,...o.state}),j(),C()}function E(e){if(e.key==="Enter"){const n=e.target,t=n.value,o=n.closest(".command-line");x(t),o.remove(),u()}else if(e.key==="ArrowUp")e.preventDefault(),i.historyIndex>0&&(i.historyIndex--,e.target.value=i.commandHistory[i.historyIndex]);else if(e.key==="ArrowDown")e.preventDefault(),i.historyIndex<i.commandHistory.length-1?(i.historyIndex++,e.target.value=i.commandHistory[i.historyIndex]):(i.historyIndex=i.commandHistory.length,e.target.value="");else if(e.key==="Tab"){e.preventDefault();const n=e.target,t=n.value,o=t.split(/\s+/).pop(),{getTabCompletions:a}=globalThis.terminalEngine,s=a(o);if(s.length===1){const m=t.slice(0,t.length-o.length)+s[0];n.value=m}else s.length>1&&h(t+`
-`+s.join("  "))}}function C(){document.querySelectorAll(".prompt").forEach(n=>n.textContent=d())}async function S(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="ascii-art",e.appendChild(n),await c(n,I);const t=document.createElement("div");t.className="welcome-message",e.appendChild(t),await c(t,k),u(),document.getElementById("command-input").focus()}function u(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="command-line",n.innerHTML=`
+`,k="Type 'help' to get started.";let i={currentDirectory:"~",commandHistory:[],historyIndex:-1};function c(e,n,t=0){return new Promise(o=>{let a=0;e.textContent="";function r(){a<n.length?(e.textContent+=n.charAt(a),a++,setTimeout(r,t)):o()}r()})}function h(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output",t.innerHTML=e,n.appendChild(t)}function T(e){const n=document.getElementById("terminal-content"),t=document.createElement("div");t.className="output-command",t.textContent=`guest@tony: ${e}`,n.appendChild(t)}function _(){const e=document.getElementById("terminal-content");e.innerHTML=""}function j(){const e=document.getElementById("terminal");e.scrollTop=e.scrollHeight}function d(){return`guest@tony:${i.currentDirectory}$`}function x(e){const n=e.trim();if(!n)return;T(n),i.commandHistory.push(n),i.historyIndex=i.commandHistory.length;const{runCommand:t}=globalThis.terminalEngine,o=t(e,i);o.clear?_():o.output?h(o.output):o.error&&h(`<span class="error">${o.error}</span>`),o.state&&(i={...i,...o.state}),j(),S()}function E(e){if(e.key==="Enter"){const n=e.target,t=n.value,o=n.closest(".command-line");x(t),o.remove(),u()}else if(e.key==="ArrowUp")e.preventDefault(),i.historyIndex>0&&(i.historyIndex--,e.target.value=i.commandHistory[i.historyIndex]);else if(e.key==="ArrowDown")e.preventDefault(),i.historyIndex<i.commandHistory.length-1?(i.historyIndex++,e.target.value=i.commandHistory[i.historyIndex]):(i.historyIndex=i.commandHistory.length,e.target.value="");else if(e.key==="Tab"){e.preventDefault();const n=e.target,t=n.value,o=t.split(/\s+/).pop(),{getTabCompletions:a}=globalThis.terminalEngine,r=a(o);if(r.length===1){const m=t.slice(0,t.length-o.length)+r[0];n.value=m}else r.length>1&&h(t+`
+`+r.join("  "))}}function S(){document.querySelectorAll(".prompt").forEach(n=>n.textContent=d())}async function C(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="ascii-art",e.appendChild(n),await c(n,I);const t=document.createElement("div");t.className="welcome-message",e.appendChild(t),await c(t,k),u(),document.getElementById("command-input").focus()}function u(){const e=document.getElementById("terminal-content"),n=document.createElement("div");n.className="command-line",n.innerHTML=`
     <span class="prompt">${d()}</span>
     <div class="input-area">
       <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
     </div>
-  `,e.appendChild(n);const t=document.getElementById("command-input");t.addEventListener("keydown",E),t.focus()}document.addEventListener("click",()=>{var e;(e=document.getElementById("command-input"))==null||e.focus()}),document.addEventListener("DOMContentLoaded",S),globalThis.terminalEngine={runCommand:b,createState:g,getTabCompletions:v}})();
+  `,e.appendChild(n);const t=document.getElementById("command-input");t.addEventListener("keydown",E),t.focus()}document.addEventListener("click",()=>{var e;(e=document.getElementById("command-input"))==null||e.focus()}),document.addEventListener("DOMContentLoaded",C),globalThis.terminalEngine={runCommand:b,createState:g,getTabCompletions:v}})();

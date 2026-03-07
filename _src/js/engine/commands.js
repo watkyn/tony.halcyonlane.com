@@ -33,21 +33,21 @@ export const commands = {
     execute: () => ({
       output: `Hi! I'm Tony, a software developer from Fall Creek, WI.
 
-I'm a Principal Software Engineer at Jamf with 20+ years of experience building software that people enjoy using. 
+Right now I'm a Principal Software Engineer at Jamf and work in the macOS management space.
+With 20+ years of experience building software, I've seen a bit over the years.
 I'm an enthusiastic learner who loves clean code, elegant solutions, and creating great user experiences.
 
-This website is my personal terminal - feel free to explore!`,
+I also love TUI's and hope you like this one!
+`,
     }),
   },
   blog: {
-    description: 'Read my blog posts',
+    description: 'Read some very outdated blog posts',
     execute: () => ({
       output: `Blog Posts
 ==========
 
-No posts yet. Check back soon!
-
-Use 'ls' to look around.`,
+cd into blog and then use 'ls -l' to look around.`,
     }),
   },
   experience: {
@@ -56,9 +56,39 @@ Use 'ls' to look around.`,
       output: `Work Experience
 ===============
 
-Coming soon! My resume is being prepared.
+Jamf (10 yrs 10 mos)
+Principal Software Engineer
+Mar 2022 - Present
+Staff Software Engineer
+Aug 2020 - Present
+Senior Software Engineer
+Jun 2015 - Present
+- Lead developer for Jamf Pro's management framework on macOS
 
-Use 'ls' to look around.`,
+Freelance Software Developer (1 yr 8 mos)
+Nov 2013 - Jun 2015
+- Worked for Jamf
+- Worked for Homespotter, and iOS real estate agent app
+
+Jamf (2 yrs 5 mos)
+Software Architect
+Oct 2012 - Oct 2013
+Software Developer
+Jun 2011 - Oct 2012
+- Lead developer for Jamf Pro's management framework on macOS
+
+IDEXX Laboratories (6 yrs 2 mos)
+Senior Application Developer
+May 2005 - Jun 2011
+- Developer for IDEXX-PACS digital imaging software
+- iPhone / iPad research and development
+- Lead developer on R&D effort of next generation veterinary practice management software
+
+Countertops Inc (3 yrs 3 mos)
+Programmer
+Mar 2002 - May 2005
+- Technical lead for Java development (Tomcat, Eclipse, JUnit, Spring, Struts, Tapestry)
+`,
     }),
   },
   contact: {
@@ -67,9 +97,11 @@ Use 'ls' to look around.`,
       output: `Contact Info
 =============
 
-Coming soon! Links to my social profiles will be here.
+<a href="https://www.linkedin.com/in/tonyike/">LinkedIn</a>
+<a href="https://github.com/watkyn">Github</a>
+<a href="https://x.com/watkyn">X</a>
 
-Use 'ls' to look around.`,
+`,
     }),
   },
   ls: {
@@ -85,7 +117,7 @@ Use 'ls' to look around.`,
         if (longFormat) {
           const lines = blogPosts.map(p => {
             const date = formatDate(p.date);
-            return `-rw-r--r--   1 guest  staff   1024 ${date} ${p.slug}`;
+            return `-r--r--r--   guest  staff   ${date} ${p.title}`;
           });
           return { output: lines.join('\n') };
         }

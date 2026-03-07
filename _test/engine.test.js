@@ -77,7 +77,7 @@ describe('runCommand', () => {
       expect(result.output).toContain('>about<');
       expect(result.output).toContain('Learn about me');
       expect(result.output).toContain('>blog<');
-      expect(result.output).toContain('Read my blog posts');
+      expect(result.output).toContain('blog posts');
       expect(result.output).toContain('>experience<');
       expect(result.output).toContain('See my work history');
       expect(result.output).toContain('>contact<');
@@ -138,7 +138,7 @@ describe('runCommand', () => {
       const result = runCommand('ls -l', state);
       expect(result.output).toContain('Feb');
       expect(result.output).toContain('2013');
-      expect(result.output).toContain('the-developer-mind-and-qa');
+      expect(result.output).toContain('The Developer Mind and QA');
     });
   });
 
