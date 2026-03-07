@@ -1,8 +1,7 @@
-title: "Tony's Terminal"
-description: "A personal CLI-themed website for my software development career"
+title: "Tony"
+description: "A CLI-themed site because that is what I do"
 baseurl: ""
 url: "https://tony.halcyonlane.com"
-theme: null
 
 markdown: kramdown
 sass:

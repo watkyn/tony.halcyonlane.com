@@ -1,6 +1,6 @@
 require 'json'
 
-Jekyll::Hooks.register :site, :post_write do |site|
+Jekyll::Hooks.register :site, :after_init do |site|
   posts = []
 
   Dir.glob('_posts/*.md').each do |file|
@@ -33,4 +33,6 @@ Jekyll::Hooks.register :site, :post_write do |site|
   posts.sort_by! { |p| p[:date] }.reverse!
 
   File.write('_posts.json', JSON.pretty_generate(posts))
+
+  system('npm run build')
 end

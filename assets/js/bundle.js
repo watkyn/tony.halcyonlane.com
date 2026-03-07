@@ -503,7 +503,8 @@ Web Start should make it hard for developers to leave the user hanging as to how
 
 (-5)
 
-So I give that cumulative score of -1051`},{slug:"using-sqlite3-in-a-visual-studio-2008-c-application",title:"Using Sqlite3 in a Visual Studio 2008 C++ Application",date:"2008-07-09",content:`---
+So I give that cumulative score of -1051
+`},{slug:"using-sqlite3-in-a-visual-studio-2008-c-application",title:"Using Sqlite3 in a Visual Studio 2008 C++ Application",date:"2008-07-09",content:`---
 layout: post
 title: "Using Sqlite3 in a Visual Studio 2008 C++ Application"
 date: 2008-07-09 10:14:36

@@ -20,6 +20,6 @@ bundle exec jekyll serve    # test the site at localhost:4000
 
 ## Structure
 
-- `src/js/` - Source code
+- `_src/js/` - Source code
 - `assets/js/` - Built output (don't edit)
-- `test/` - Tests
+- `_test/` - Tests
