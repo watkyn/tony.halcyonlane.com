@@ -2,7 +2,9 @@ export const commands = {
   help: {
     description: 'Show all available commands',
     execute: (args, state) => {
+      const hiddenFromHelp = ['cat', 'pwd', 'cd', 'clear', 'help'];
       const commandList = Object.entries(commands)
+        .filter(([name]) => !hiddenFromHelp.includes(name))
         .map(([name, cmd]) => `<span class="help-command">${name}</span><span>${cmd.description}</span>`)
         .join('');
       return { output: `<div class="help-list">${commandList}</div>` };
