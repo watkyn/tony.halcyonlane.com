@@ -631,7 +631,7 @@ I also love TUI's and hope you like this one!
 cd into blog and then use 'ls -l' to look around.`})},experience:{description:"See my work history",execute:()=>({output:`Work Experience
 ===============
 
-Jamf (10 yrs 10 mos)
+Jamf 10+ years
 Principal Software Engineer
 Mar 2022 - Present
 Staff Software Engineer

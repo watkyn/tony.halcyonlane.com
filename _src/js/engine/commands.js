@@ -56,7 +56,7 @@ cd into blog and then use 'ls -l' to look around.`,
       output: `Work Experience
 ===============
 
-Jamf (10 yrs 10 mos)
+Jamf 10+ years
 Principal Software Engineer
 Mar 2022 - Present
 Staff Software Engineer
